@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Web_ManagementHouseRentals.Data.Entities
 {
-    public class Contracts : IEntity
+    public class Contract : IEntity
     {
         public int Id { get; set; }
 

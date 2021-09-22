@@ -11,7 +11,7 @@ namespace Web_ManagementHouseRentals.Data
     {
         public int Id { get; set; }
 
-        public PropertyType type;
+        public PropertyType type { get; set; }
         
         [Display(Name = "Owner")]
         public User Owner { get; set; }

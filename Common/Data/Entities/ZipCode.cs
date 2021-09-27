@@ -14,5 +14,6 @@ namespace Web_ManagementHouseRentals.Data.Entities
         public string District { get; set; }
 
         public string Neighborhood { get; set; }
+        
     }
 }

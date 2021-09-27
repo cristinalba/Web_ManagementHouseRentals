@@ -30,6 +30,8 @@ namespace Web_ManagementHouseRentals.Data.Entities
 
         public byte Document_Pdf { get; set; }// byte[]
 
+        public Property Property { get; set; }
+
 
         [Display(Name = "Contract issued")]
         public bool ContractIssued { get; set; }

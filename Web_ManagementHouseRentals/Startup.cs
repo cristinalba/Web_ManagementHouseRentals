@@ -25,6 +25,9 @@ namespace Web_ManagementHouseRentals
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllersWithViews();
+
+            //Use the Seed the first time DB is executed
+            services.AddTransient<SeedDb>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

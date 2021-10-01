@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Data.Repositories.Classes
+namespace Common.Data.Repositories
 {
-    class Contract
+    interface IContractRepository
     {
     }
 }

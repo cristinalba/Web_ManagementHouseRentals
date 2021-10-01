@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Data.Repositories
 {
-    interface IZipCode
+    interface IProposalRepository
     {
     }
 }

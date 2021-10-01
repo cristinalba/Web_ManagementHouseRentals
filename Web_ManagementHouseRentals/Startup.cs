@@ -27,7 +27,7 @@ namespace Web_ManagementHouseRentals
             services.AddControllersWithViews();
 
             //Use the Seed the first time DB is executed
-            services.AddTransient<SeedDb>();
+            //services.AddTransient<SeedDb>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

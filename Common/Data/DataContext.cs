@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Common.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Web_ManagementHouseRentals.Data
         public DbSet<Property> Properties { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
+
+        public DbSet<Proposal> Proposals { get; set; }
 
         public DbSet<Extra> Extras { get; set; }
 

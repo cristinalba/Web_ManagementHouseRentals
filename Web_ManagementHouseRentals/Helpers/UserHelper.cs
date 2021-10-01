@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
+using Web_ManagementHouseRentals.Models;
 
 namespace Web_ManagementHouseRentals.Helpers
 {
@@ -63,16 +64,16 @@ namespace Web_ManagementHouseRentals.Helpers
             return await _userManager.IsInRoleAsync(user, RoleName);
         }
 
-        //public async Task<SignInResult> LoginAsync(LoginViewModel model)
-        //{
-        //    return await _signInManager.PasswordSignInAsync(
-        //        model.Username,
-        //        model.Password,
-        //        model.RememberMe,
-        //        false);
-        //}
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
 
-        public async Task LougoutAsync()
+        public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
         }

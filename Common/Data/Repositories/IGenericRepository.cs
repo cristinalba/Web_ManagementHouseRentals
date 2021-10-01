@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace Common.Data.Repositories
 {
-    interface IGenericRepository
+    public interface IGenericRepository<T> where T : class
     {
+        IQueryable<T> GetAll();
+
+        Task<T> GetByIdAsync(int id);
+
+        Task CreateAsync(T entity);
+
+        Task UpdateAsynk(T entity);
+
+        Task DeleteAsync(T entity);
+
+        Task<bool> ExistAsync(int id);
     }
 }

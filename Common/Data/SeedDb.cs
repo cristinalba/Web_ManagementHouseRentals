@@ -7,6 +7,11 @@ namespace Web_ManagementHouseRentals.Data
 {
     public class SeedDb
     {
-        public SeedDb(DataContext context, IUserHelper userHelper)
+        private readonly DataContext _context;
+
+        public SeedDb(DataContext context)
+        {
+            _context = context;
+        }
     }
 }

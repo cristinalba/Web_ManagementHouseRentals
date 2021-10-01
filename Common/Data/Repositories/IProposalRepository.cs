@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Common.Data.Repositories
 {
-    interface IProposalRepository
+    public interface IProposalRepository : IGenericRepository<Proposal>
     {
+
     }
 }

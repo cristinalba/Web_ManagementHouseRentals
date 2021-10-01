@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Web_ManagementHouseRentals.Data;
 
 namespace Common.Data.Repositories
 {
-    interface IPropertyRepository
+    public interface IPropertyRepository : IGenericRepository<Property>
     {
+
     }
 }

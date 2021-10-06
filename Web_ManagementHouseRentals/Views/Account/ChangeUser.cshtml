@@ -37,34 +37,33 @@
                 <div class="col mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="e-profile">
-                                <div class="row">
-                                    <div class="col-12 col-sm-auto mb-3">
-                                        <div class="mx-auto" style="width: 140px;">
-                                            <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+                            <form class="form" method="post" enctype="multipart/form-data">
+                                <div class="e-profile">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-auto mb-3">
+                                            <div class="mx-auto" style="width: 140px;">
+                                                <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                                                    <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
-                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">@this.User.Identity.Name</h4>
-                                            <div class="mt-2">
-                                                <button class="btn btn-success" type="button">
+                                        <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                            <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">@this.User.Identity.Name</h4>
+                                                <div class="mt-2">
+                                                    <input class="btn btn-success" type="file" asp-for="ImageFile">
                                                     <i class="fa fa-fw fa-camera"></i>
-                                                    <span>Change Photo</span>
-                                                </button>
+                                                    <span asp-validation-for="LastName" class="text-warning"></span>
+                                                </div>
+                                            </div>
+                                            <div class="text-center text-sm-right">
+                                                <span class="badge badge-secondary">User role</span>
+                                                <div class="text-muted"><small>Joined 09 Dec 2017</small></div>
                                             </div>
                                         </div>
-                                        <div class="text-center text-sm-right">
-                                            <span class="badge badge-secondary">User role</span>
-                                            <div class="text-muted"><small>Joined 09 Dec 2017</small></div>
-                                        </div>
                                     </div>
-                                </div>
-                                <div class="tab-content pt-3">
-                                    <div class="tab-pane active">
-                                        <form class="form" method="post">
+                                    <div class="tab-content pt-3">
+                                        <div class="tab-pane active">
                                             <div asp-validation-summary="ModelOnly"></div>
                                             <div class="row">
                                                 <div class="col">
@@ -102,9 +101,9 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group">
-                                                                <label asp-for="PhoneMumber">Phone Number</label>
-                                                                <input asp-for="PhoneMumber" class="form-control" type="text">
-                                                                <span asp-validation-for="PhoneMumber" class="text-warning"></span>
+                                                                <label asp-for="PhoneNumber">Phone Number</label>
+                                                                <input asp-for="PhoneNumber" class="form-control" type="text">
+                                                                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -179,10 +178,11 @@
                                                     <input class="btn btn-success" type="submit" value="Save Changes" />
                                                 </div>
                                             </div>
-                                        </form>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

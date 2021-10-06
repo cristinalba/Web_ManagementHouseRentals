@@ -86,12 +86,8 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="ZipCode" class="label" for="zipCode">Zip-Code</label>
-                                <div class="d-flex">
-                                    <input asp-for="ZipCode" type="text" class="form-control w-50" placeholder="1300" required>
-                                    <label class="mt-2">-</label>
-                                    <input asp-for="ZipCode" type="text" class="form-control" style="width: 30%;" placeholder="312" required>
-                                    <span asp-validation-for="ZipCode" class="text-warning"></span>
-                                </div>
+                                <input asp-for="ZipCode" type="text" class="form-control w-50" placeholder="1300-312" required>
+                                <span asp-validation-for="ZipCode" class="text-warning"></span>
                             </div>
                         </div>
                         <div class="form-group mb-3">

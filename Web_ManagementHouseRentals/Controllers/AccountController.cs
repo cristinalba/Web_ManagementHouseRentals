@@ -80,7 +80,13 @@ namespace Web_ManagementHouseRentals.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Username,
-                        UserName = model.Username
+                        UserName = model.Username,
+                        BirthDate = model.BirthDate,
+                        PhoneNumber = model.PhoneMumber,
+                        CC = model.CC,
+                        NIF = model.NIF,
+                        Address = model.Address,
+                        ZipCode = model.ZipCode,
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -119,6 +125,13 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
+                model.BirthDate = user.BirthDate;
+                model.Username = user.UserName;
+                model.PhoneMumber = user.PhoneNumber;
+                model.CC = user.CC;
+                model.NIF = user.NIF;
+                model.Address = user.Address;
+                model.ZipCode = user.ZipCode;
             }
 
             return View(model);
@@ -179,10 +192,7 @@ namespace Web_ManagementHouseRentals.Controllers
                     this.ModelState.AddModelError(string.Empty, "User not found.");
                 }
             }
-
             return this.View(model);
         }
-
-
     }
 }

@@ -90,6 +90,12 @@ namespace Web_ManagementHouseRentals.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
+                        BirthDate = model.BirthDate,
+                        PhoneNumber = model.PhoneNumber,
+                        CC = model.CC,
+                        NIF = model.NIF,
+                        Address = model.Address,
+                        ZipCode = model.ZipCode,
                         Email = model.Username,
                         UserName = model.Username
                     };
@@ -136,7 +142,7 @@ namespace Web_ManagementHouseRentals.Controllers
                 model.LastName = user.LastName;
                 model.BirthDate = user.BirthDate;
                 model.Username = user.UserName;
-                model.PhoneMumber = user.PhoneNumber;
+                model.PhoneNumber = user.PhoneNumber;
                 model.CC = user.CC;
                 model.NIF = user.NIF;
                 model.Address = user.Address;

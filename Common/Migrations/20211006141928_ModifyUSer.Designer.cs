@@ -10,8 +10,8 @@ using Web_ManagementHouseRentals.Data;
 namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211006093124_modifyUser")]
-    partial class modifyUser
+    [Migration("20211006141928_ModifyUSer")]
+    partial class ModifyUSer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -338,12 +338,14 @@ namespace Common.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CC")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -358,10 +360,15 @@ namespace Common.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -372,6 +379,7 @@ namespace Common.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NIF")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -402,6 +410,7 @@ namespace Common.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ZipCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -34,6 +34,12 @@ namespace Web_ManagementHouseRentals.Data
                     LastName = "Antunes",
                     Email = "rental4u.c@gmail.com",
                     UserName = "rental4u.c@gmail.com",
+                    CC = "123456789",
+                    NIF = "123456789",
+                    ZipCode = "1234-567",
+                    Address = "Rua das Flores",
+                    BirthDate = new DateTime(1993,01,23),
+
                 };
 
                 var result = await _userHelper.AddUserAsync(user, "123456");

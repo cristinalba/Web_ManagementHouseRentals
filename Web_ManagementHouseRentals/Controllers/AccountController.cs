@@ -19,6 +19,11 @@ namespace Web_ManagementHouseRentals.Controllers
             _userHelper = userHelper;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

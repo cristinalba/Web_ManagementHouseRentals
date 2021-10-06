@@ -10,8 +10,8 @@ using Web_ManagementHouseRentals.Data;
 namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211001112125_InitDb")]
-    partial class InitDb
+    [Migration("20211006085022_initDB")]
+    partial class initDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -339,6 +339,9 @@ namespace Common.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CC")
                         .HasColumnType("nvarchar(max)");

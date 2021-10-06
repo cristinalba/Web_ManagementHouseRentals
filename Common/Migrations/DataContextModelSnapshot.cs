@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_ManagementHouseRentals.Data;
 
-namespace Web_ManagementHouseRentals.Migrations
+namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -337,6 +337,9 @@ namespace Web_ManagementHouseRentals.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CC")
                         .HasColumnType("nvarchar(max)");

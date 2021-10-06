@@ -119,6 +119,13 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
+                model.BirthDate = user.BirthDate;
+                model.Username = user.UserName;
+                model.PhoneMumber = user.PhoneNumber;
+                model.CC = user.CC;
+                model.NIF = user.NIF;
+                model.Address = user.Address;
+                model.ZipCode = user.ZipCode;
             }
 
             return View(model);

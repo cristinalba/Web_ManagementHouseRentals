@@ -184,5 +184,11 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
 
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+
     }
 }

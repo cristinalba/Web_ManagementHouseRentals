@@ -22,8 +22,18 @@ namespace Web_ManagementHouseRentals.Helpers
 
         Task<IdentityResult> ChangePasswordAsync(User user, string oldpassword, string newPassword);
 
+        ///Tokens///
+
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
+        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+
+        Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+
+
+        Task<User> GetUserByIdAsync(string userId);
+
+        ///Tokens///
         Task CheckRoleAsync(string roleName);
 
         Task AddUserToRoleAsync(User user, string roleName);

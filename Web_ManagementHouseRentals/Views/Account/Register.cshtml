@@ -1,4 +1,10 @@
-﻿<!--/ Intro Single star /-->
+﻿@model Web_ManagementHouseRentals.Models.RegisterNewUserViewModel
+
+@{ 
+    ViewData["Title"] = "Register";
+}
+
+<!--/ Intro Single star /-->
 <section class="intro-single">
     <div class="container">
         <div class="row">
@@ -11,7 +17,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Sign In
@@ -23,55 +29,91 @@
     </div>
 </section>
 <!--/ Intro Single End /-->
-<!--/ Signin Star /-->
+<!--/ Signin Form /-->
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="login-wrap p-4 p-md-5">
-                    <div action="#" class="signin-form">
+                    <form method="post" class="signin-form">
+                        <div asp-validation-summary="ModelOnly"></div>
                         <div class="d-flex">
                             <div class="form-group mb-3 mr-5 w-50" style="width: 40%;">
-                                <label class="label" for="name">First Name</label>
-                                <input type="text" class="form-control" placeholder="First Name" required>
+                                <label asp-for="FirstName" class="label" for="firstName">First Name</label>
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" required>
+                                <span asp-validation-for="FirstName" class="text-warning"></span>
                             </div>
                             <div class="form-group mb-3 w-50" style="width: 40%;">
-                                <label class="label" for="name">Second Name</label>
-                                <input type="text" class="form-control" placeholder="Second Name" required>
+                                <label asp-for="LastName" class="label" for="lastName">Last Name</label>
+                                <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" required>
+                                <span asp-validation-for="LastName" class="text-warning"></span>
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label class="label" for="password">Email</label>
-                            <input type="Email" class="form-control" placeholder="Example@example.com" required>
+                            <label asp-for="Username" class="label" for="email">Email</label>
+                            <input asp-for="Username" type="Email" class="form-control" placeholder="Example@example.com" required>
+                            <span asp-validation-for="Username" class="text-warning"></span>
                         </div>
                         <div class="d-flex">
                             <div class="form-group mb-3 mr-5 w-50">
-                                <label class="label" for="password">Birthday</label>
-                                <input type="Date" class="form-control" required>
+                                <label asp-for="BirthDate" class="label" for="birthDate">Birth Date</label>
+                                <input asp-for="BirthDate" type="Date" class="form-control" required>
+                                <span asp-validation-for="BirthDate" class="text-warning"></span>
                             </div>
                             <div class="form-group mb-3 w-50">
-                                <label class="label" for="password">Phone Number</label>
-                                <input type="text" class="form-control" placeholder="Ex.912345678" required>
+                                <label asp-for="PhoneMumber" class="label" for="phoneNumber">Phone Number</label>
+                                <input asp-for="PhoneMumber" type="text" class="form-control" placeholder="Ex.912345678" required>
+                                <span asp-validation-for="PhoneMumber" class="text-warning"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-group mb-3 mr-5 w-50">
+                                <label asp-for="CC" class="label" for="cc">CC</label>
+                                <input asp-for="CC" type="text" class="form-control" placeholder="123456789" required>
+                                <span asp-validation-for="CC" class="text-warning"></span>
+                            </div>
+                            <div class="form-group mb-3 w-50">
+                                <label asp-for="NIF" class="label" for="nif">NIF</label>
+                                <input asp-for="NIF" type="text" class="form-control" placeholder="123456789" required>
+                                <span asp-validation-for="NIF" class="text-warning"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-group mb-3 mr-5 w-75">
+                                <label asp-for="Address" class="label" for="address">Address</label>
+                                <input asp-for="Address" type="text" class="form-control" placeholder="Rua Jau, Nº31" required>
+                                <span asp-validation-for="Address" class="text-warning"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="ZipCode" class="label" for="zipCode">Zip-Code</label>
+                                <div class="d-flex">
+                                    <input asp-for="ZipCode" type="text" class="form-control w-50" placeholder="1300" required>
+                                    <label class="mt-2">-</label>
+                                    <input asp-for="ZipCode" type="text" class="form-control" style="width: 30%;" placeholder="312" required>
+                                    <span asp-validation-for="ZipCode" class="text-warning"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label class="label" for="password">Password</label>
-                            <input type="password" class="form-control" placeholder="Password" required>
+                            <label asp-for="Password" class="label" for="password">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Password" required>
+                            <span asp-validation-for="Password" class="text-warning"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label class="label" for="password">Password Confirmation</label>
-                            <input type="password" class="form-control" placeholder="Password Confirmation" required>
+                            <label asp-for="Confirm" class="label" for="password">Password Confirmation</label>
+                            <input asp-for="Confirm" type="password" class="form-control" placeholder="Password Confirmation" required>
+                            <span asp-validation-for="Confirm" class="text-warning"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-control btn btn-success rounded submit px-3">Sign In</button>
+                            <input type="submit" value="Sign In" class="form-control btn btn-success rounded submit px-3" />
                         </div>
                         <div class="form-group d-md-flex">
                         </div>
-                    </div>
+                    </form>
                     <p class="text-center">Already a member? <a href="login.html">Login</a></p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!--/ Singin End /-->
+<!--/ Singin Form end /-->

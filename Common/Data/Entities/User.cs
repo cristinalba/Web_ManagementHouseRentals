@@ -30,6 +30,9 @@ namespace Web_ManagementHouseRentals.Data.Entities
         [Display(Name = "Address")]
         public string Address { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        public DateTime BirthDate { get; set; }
+
         [Display(Name = "Customer")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 

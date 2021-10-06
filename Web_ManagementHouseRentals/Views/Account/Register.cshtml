@@ -34,6 +34,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
+                <div class="text-success mb-2"><h5>@ViewBag.Message</h5></div>
                 <div class="login-wrap p-4 p-md-5">
                     <form method="post" class="signin-form">
                         <div asp-validation-summary="ModelOnly"></div>
@@ -86,12 +87,8 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label asp-for="ZipCode" class="label" for="zipCode">Zip-Code</label>
-                                <div class="d-flex">
-                                    <input asp-for="ZipCode" type="text" class="form-control w-50" placeholder="1300" required>
-                                    <label class="mt-2">-</label>
-                                    <input asp-for="ZipCode" type="text" class="form-control" style="width: 30%;" placeholder="312" required>
-                                    <span asp-validation-for="ZipCode" class="text-warning"></span>
-                                </div>
+                                <input asp-for="ZipCode" type="text" class="form-control" placeholder="1300-312" required>
+                                <span asp-validation-for="ZipCode" class="text-warning"></span>
                             </div>
                         </div>
                         <div class="form-group mb-3">
@@ -117,9 +114,3 @@
     </div>
 </section>
 <!--/ Singin Form end /-->
-
-<div class="text-success">
-    <p>
-        @ViewBag.Message
-    </p>
-</div>

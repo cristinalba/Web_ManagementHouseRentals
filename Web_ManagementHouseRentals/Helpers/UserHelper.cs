@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
 using Web_ManagementHouseRentals.Models;
@@ -81,6 +78,14 @@ namespace Web_ManagementHouseRentals.Helpers
         public async Task<IdentityResult> UpdateUserAsync(User user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
+        {
+            return await _signInManager.CheckPasswordSignInAsync(
+                user,
+                password,
+                false);
         }
     }
 }

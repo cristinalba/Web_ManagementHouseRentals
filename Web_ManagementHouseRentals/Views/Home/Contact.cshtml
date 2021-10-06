@@ -45,8 +45,9 @@
             <div class="col-sm-12 section-t8">
                 <div class="row">
                     <div class="col-md-7">
-                        <form class="form-a contactForm" action="" method="post" role="form">
-                            <div id="sendmessage">Your message has been sent. Thank you!</div>
+                        @*<form class="form-a contactForm" action="" method="post" role="form">*@
+                        <form method="post">
+                            @*<div id="sendmessage">Your message has been sent. Thank you!</div>*@
                             <div id="errormessage"></div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -74,7 +75,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="submit" class="btn btn-a" value="Send Message"/>
+                                    <div class="text-center"><button class="btn btn-a" type="submit">Send Message</button></div>
+                                    @*<input type="submit" class="btn btn-a" value="Send Message" />*@
                                 </div>
                             </div>
                         </form>

@@ -38,17 +38,17 @@ namespace Web_ManagementHouseRentals.Controllers
         [HttpPost]
         public IActionResult Contact(EmailForm sendMail)
         {
-            //if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View();
 
-            //try
-            //{
+            try
+            {
                 SmtpClient sc = new SmtpClient();
                 MailMessage mail = new MailMessage();
 
 
                 mail.From = new MailAddress("dinocinel3@gmail.com");
                 mail.To.Add(new MailAddress("dinocinel3@gmail.com"));
-                mail.Subject = sendMail.Subject;
+                mail.Subject = $"Rental's page: {sendMail.Subject}";
 
                 mail.IsBodyHtml = true;
 
@@ -70,11 +70,11 @@ namespace Web_ManagementHouseRentals.Controllers
                 ViewBag.Message = "Message sent!";
 
                 ModelState.Clear();
-            //}
-            ////catch (Exception ex)
-            ////{
-            ////    ViewBag.Message = ex.Message.ToString();
-            ////}
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message.ToString();
+            }
 
             return View();
         }

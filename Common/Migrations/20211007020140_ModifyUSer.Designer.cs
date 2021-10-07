@@ -10,7 +10,7 @@ using Web_ManagementHouseRentals.Data;
 namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211006141928_ModifyUSer")]
+    [Migration("20211007020140_ModifyUSer")]
     partial class ModifyUSer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -364,8 +364,8 @@ namespace Common.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()

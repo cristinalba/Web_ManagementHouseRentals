@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Common.Migrations
 {
@@ -71,18 +70,17 @@ namespace Common.Migrations
                 oldType: "nvarchar(max)",
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "ImageId",
+            migrationBuilder.AddColumn<string>(
+                name: "ImageUrl",
                 table: "AspNetUsers",
-                type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ImageId",
+                name: "ImageUrl",
                 table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<string>(

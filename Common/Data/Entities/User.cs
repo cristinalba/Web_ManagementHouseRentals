@@ -38,10 +38,11 @@ namespace Web_ManagementHouseRentals.Data.Entities
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
+        [Display(Name = "Birth Date")]
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Image")]
-        public Guid ImageId { get; set; }
+        public string ImageUrl { get; set; }
 
         [Display(Name = "Customer")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }

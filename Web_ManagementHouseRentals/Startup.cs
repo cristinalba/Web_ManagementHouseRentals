@@ -65,9 +65,13 @@ namespace Web_ManagementHouseRentals
 
             //Use the Seed the first time DB is executed
             services.AddTransient<SeedDb>();
-            //
+            //Helpers
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+
+            //Repositories
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IProposalRepository, ProposalRepository>();

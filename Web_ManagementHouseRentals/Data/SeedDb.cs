@@ -12,11 +12,13 @@ namespace Web_ManagementHouseRentals.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private Random _random;
 
         public SeedDb(DataContext context, IUserHelper userHelper)
         {
             _context = context;
             _userHelper = userHelper;
+            _random = new Random();
         }
 
         public async Task SeedAsync()
@@ -34,11 +36,11 @@ namespace Web_ManagementHouseRentals.Data
                     LastName = "Antunes",
                     Email = "rental4u.c@gmail.com",
                     UserName = "rental4u.c@gmail.com",
-                    CC = "123456789",
-                    NIF = "123456789",
-                    ZipCode = "1234-567",
+                    CC = _random.Next(10000000, 59999999).ToString(),
+                    NIF = _random.Next(100000000, 599999999).ToString(),
+                    ZipCode = $"{_random.Next(1000, 9999).ToString()}-{_random.Next(100, 999).ToString()}",
                     Address = "Rua das Flores",
-                    BirthDate = new DateTime(1993,01,23),
+                    BirthDate = new DateTime(_random.Next(1980, 2000), _random.Next(1, 12), _random.Next(1, 27)),
 
                 };
 

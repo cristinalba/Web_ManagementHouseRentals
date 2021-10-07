@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,14 +21,20 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
         private readonly IConfiguration _configuration;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public AccountController(IUserHelper userHelper,
                                  IMailHelper mailHelper,
-                                 IConfiguration configuration)
+                                 IConfiguration configuration,
+                                 IImageHelper imageHelper,
+                                 IConverterHelper converterHelper)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _configuration = configuration;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         public IActionResult Index()
@@ -135,20 +142,11 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-            var model = new ChangeUserViewModel();
-            if (user != null)
+            if (user == null)
             {
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-                model.BirthDate = user.BirthDate;
-                model.Username = user.UserName;
-                model.PhoneNumber = user.PhoneNumber;
-                model.CC = user.CC;
-                model.NIF = user.NIF;
-                model.Address = user.Address;
-                model.ZipCode = user.ZipCode;
+                return NotFound();
             }
-
+            var model = _converterHelper.ToChangeUserViewModel(user);
             return View(model);
         }
 
@@ -157,21 +155,46 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-                if (user != null)
+                try
                 {
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    var response = await _userHelper.UpdateUserAsync(user);
-                    if (response.Succeeded)
+                    var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                    if (user != null)
                     {
-                        ViewBag.UserMessage = "User updated!";
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                        var path = model.ImageUrl;
+                        if (model.ImageFile != null && model.ImageFile.Length > 0)
+                        {
+                            path = await _imageHelper.UploadImageAsync(model.ImageFile, "users");
+                        }
+                        //TODO:Adaptar o converterHelper (usando o -> var user = _converterHepler.ToUser(model) <- O UpdateUserAsync retorna erro de duplicação de dados)
+                        //TODO:Terá de ser feito um metodo para a password se ficar na mesma view que o resto dos dados
+                        user.FirstName = model.FirstName;
+                        user.LastName = model.LastName;
+                        user.BirthDate = model.BirthDate;
+                        user.PhoneNumber = model.PhoneNumber;
+                        user.CC = model.CC;
+                        user.NIF = model.NIF;
+                        user.Address = model.Address;
+                        user.ZipCode = model.ZipCode;
+                        user.Email = model.Username;
+                        user.UserName = model.Username;
+                        user.ImageUrl = path;
+                        
+                        var response = await _userHelper.UpdateUserAsync(user);
+                        if (response.Succeeded)
+                        {
+                            ViewBag.UserMessage = "User updated!";
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
+                        }
                     }
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction("Index", "Home");
             }
 
 

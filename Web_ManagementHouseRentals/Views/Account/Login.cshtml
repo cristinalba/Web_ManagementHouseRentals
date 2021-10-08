@@ -56,7 +56,8 @@
                                 </label>
                             </div>
                             <div class="w-50 text-md-right">
-                                <a >Forgot Password</a>
+                                @*<a >Forgot Password</a>*@
+                                 <a asp-action="RecoverPassword" class="btn btn-link">Forgot your password?</a>
                             </div>
                         </div>
                     </form>
@@ -68,6 +69,6 @@
 </section>
 @*/ Login Form /*@
 
-@section Scripts {
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@

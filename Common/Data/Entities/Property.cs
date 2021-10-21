@@ -34,7 +34,7 @@ namespace Web_ManagementHouseRentals.Data
         [Display(Name = "Extras")]
         public List<Extra> Extra { get; set; } //Amenities
 
-        public Photo Cod_Photo { get; set; } //Images
+        
 
         public double Area { get; set; } //Area
 

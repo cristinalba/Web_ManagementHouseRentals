@@ -38,14 +38,20 @@
                 <div class="contact-map box">
                     <div id="map" class="contact-map">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1ses-419!2sve!4v1510329142834"
-                                width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                 frameborder="0" style="border:0; width:100%; height:450px;" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
             <div class="col-sm-12 section-t8">
                 <div class="row">
                     <div class="col-md-7">
-                        @*<form class="form-a contactForm" action="" method="post" role="form">*@
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                <center><h6>@ViewBag.Message</h6></center>
+                            </div>
+                        }
+
                         <form method="post">
                             @*<div id="sendmessage">Your message has been sent. Thank you!</div>*@
                             <div id="errormessage"></div>
@@ -65,13 +71,13 @@
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
                                         <input type="text" asp-for="@Model.Subject" class="form-control form-control-lg form-control-a" name="subject" id="subject" placeholder="Subject:" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                                        <div class="validation"><span asp-validation-for="@Model.Subject"></span></div>            
+                                        <div class="validation"><span asp-validation-for="@Model.Subject"></span></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
                                         <textarea class="form-control" asp-for="@Model.Message" name="message" cols="45" rows="8" id="tb_corpo" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                                        <div class="validation"><span asp-validation-for="@Model.Message"></span></div>                                     
+                                        <div class="validation"><span asp-validation-for="@Model.Message"></span></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

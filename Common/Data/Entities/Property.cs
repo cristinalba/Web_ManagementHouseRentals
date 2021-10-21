@@ -9,7 +9,7 @@ namespace Web_ManagementHouseRentals.Data
 {
     public class Property : IEntity
     {
-        public int Id { get; set; }
+        public int Id { get; set; } //PropertyID
 
         public PropertyType type { get; set; }
         
@@ -17,30 +17,41 @@ namespace Web_ManagementHouseRentals.Data
         public User Owner { get; set; }
 
 
-        [Display(Name = "Name Property")]
-        public string NameProperty { get; set; }
+        [Display(Name = "Property type")]
+        public string NameProperty { get; set; } //property Type
 
-        public string Description { get; set; }
+        [Display(Name = "Property description")]
+        public string Description { get; set; } //property Description: text
 
-        public SizeType SizeType { get; set; }
+        [Display(Name = "Size type")]
+        public SizeType SizeType { get; set; } //Size Type
 
-        public string Address { get; set; }
+        public string Address { get; set; }//Location
 
+        [Display(Name = "Zip Code")]
         public ZipCode ZipCode { get; set; }
 
-        public List<Extra> Extra { get; set; }
+        [Display(Name = "Extras")]
+        public List<Extra> Extra { get; set; } //Amenities
 
-        public Photo Cod_Photo { get; set; }
+        public Photo Cod_Photo { get; set; } //Images
 
-        public double Area { get; set; }
+        public double Area { get; set; } //Area
 
-        public double Latitude { get; set; }
+        public double Latitude { get; set; } //Mapa1
 
-        public double Longitude { get; set; }
+        public double Longitude { get; set; } //Mapa2
 
-        public EnergyCertificate EnergyCertificate { get; set; }
+        [Display(Name = "Energy Certificate")]
+        public EnergyCertificate EnergyCertificate { get; set; } //QS
 
-        public bool AvailableProperty { get; set; }
+        [Display(Name = "Status")]
+        public bool AvailableProperty { get; set; } //Status
+
+
+        [Display(Name = "Monthly Price")]
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public double MonthlyPrice { get; set; } // Price
 
 
 

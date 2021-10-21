@@ -61,6 +61,8 @@ namespace Web_ManagementHouseRentals.Data
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
+
+            //await _userHelper.AddSizeTypeAsync();
         }
     }
 }

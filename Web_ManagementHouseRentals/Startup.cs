@@ -75,7 +75,13 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IProposalRepository, ProposalRepository>();
-            
+            services.AddScoped<ISizeTypeRepository, SizeTypeRepository>();
+            services.AddScoped<IPropertyTypeRepository, PropertyTypeRepository>();
+            services.AddScoped<IEnergyCertificateRepository, EnergyCertificateRepository>();
+            services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
+            services.AddScoped<IProperty_PhotoRepository, Property_PhotoRepository>();
+            services.AddScoped<IExtraRepository, ExtraRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

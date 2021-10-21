@@ -17,5 +17,7 @@ namespace Common.Data.Entities
         public ProposalState proposalState { get; set; }
 
         public string Message { get; set; }
+
+        //datas??
     }
 }

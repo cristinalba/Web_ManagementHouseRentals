@@ -70,6 +70,7 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<IComboHelper, ComboHelper>();
 
             //Repositories
             services.AddScoped<IContractRepository, ContractRepository>();

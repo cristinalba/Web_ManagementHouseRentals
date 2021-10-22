@@ -8,18 +8,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Helpers;
+using Web_ManagementHouseRentals.Models;
 
 namespace Web_ManagementHouseRentals.Controllers
 {
     public class PropertiesController : Controller
     {
         private readonly IPropertyRepository _propertyRepository;
+        private readonly IComboHelper _comboHelper;
         private readonly IUserHelper _userHelper;
 
-        public PropertiesController(IPropertyRepository propertyRepository, 
-                                    IUserHelper userHelper)
+        public PropertiesController(IUserHelper userHelper,
+                                    IPropertyRepository propertyRepository, 
+                                    IComboHelper comboHelper)
         {
             _propertyRepository = propertyRepository;
+            _comboHelper = comboHelper;
             _userHelper = userHelper;
         }
 
@@ -35,15 +39,28 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: PropertiesController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            var property = _propertyRepository.GetByIdWithInfoAsync(id.Value);
+            if (property == null)
+            {
+                return NotFound();
+            }
+
             return View();
         }
 
         // GET: PropertiesController/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new CreatePropertyViewModel
+            {
+                PropertyTypes = _comboHelper.GetComboPropertyTypes(),
+                SizeTypes = _comboHelper.GetComboSizeTypes(),
+                EnergyCertificates = _comboHelper.GetComboCertificate(),
+            };
+
+            return View(model);
         }
 
         // POST: PropertiesController/Create

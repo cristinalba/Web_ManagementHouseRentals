@@ -10,7 +10,8 @@ namespace Web_ManagementHouseRentals.Data.Entities
 
         public int Id { get; set; }
 
+        public Property Property { get; set; }
 
-        public byte[] Photography { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

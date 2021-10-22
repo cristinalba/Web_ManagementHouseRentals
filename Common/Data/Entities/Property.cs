@@ -16,7 +16,6 @@ namespace Web_ManagementHouseRentals.Data
         [Display(Name = "Owner")]
         public User Owner { get; set; }
 
-
         [Display(Name = "Property type")]
         public string NameProperty { get; set; } //property Type
 
@@ -32,9 +31,7 @@ namespace Web_ManagementHouseRentals.Data
         public ZipCode ZipCode { get; set; }
 
         [Display(Name = "Extras")]
-        public List<Extra> Extra { get; set; } //Amenities
-
-        
+        public ICollection<Extra> Extra { get; set; } //Amenities
 
         public double Area { get; set; } //Area
 
@@ -48,19 +45,11 @@ namespace Web_ManagementHouseRentals.Data
         [Display(Name = "Status")]
         public bool AvailableProperty { get; set; } //Status
 
-
         [Display(Name = "Monthly Price")]
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public double MonthlyPrice { get; set; } // Price
 
-
-
-
-
-
-
-
-
-
+        [Display(Name = "Property Photos")]
+        public ICollection<Property_Photo> PropertyPhotos { get; set; }
     }
 }

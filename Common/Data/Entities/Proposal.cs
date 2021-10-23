@@ -19,5 +19,7 @@ namespace Common.Data.Entities
         public string Message { get; set; }
 
         //datas??
+        //checked??
+        //quem envia
     }
 }

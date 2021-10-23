@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Web_ManagementHouseRentals.Data.Entities.User>
+
+@{ ViewData["Title"] = "Index"; }
+
+<main id="main">
+    <section class="inner-page">
+        <div class="container">
+
+            <br />
+            <h2>List of all the customers</h2>
+            <hr />
+            <table class="table" id="usersTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserName)
+                        </th>
+                      
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>               
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Edit User" class="btn btn-warning"></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Delete" class="btn btn-danger"></a>                          
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>

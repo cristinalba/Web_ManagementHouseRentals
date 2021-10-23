@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
 using Web_ManagementHouseRentals.Models;
@@ -50,6 +52,10 @@ namespace Web_ManagementHouseRentals.Helpers
                 });
             }
         }
+        public async Task<IList<User>> GetUsersCustomers(string roleName)
+        {
+            return await _userManager.GetUsersInRoleAsync(roleName);
+        }
 
         public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
         {
@@ -83,6 +89,13 @@ namespace Web_ManagementHouseRentals.Helpers
         {
             return await _userManager.IsInRoleAsync(user, RoleName);
         }
+
+        public IQueryable<User> GetAll()
+        {
+            return _userManager.Users;
+        }
+
+
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {

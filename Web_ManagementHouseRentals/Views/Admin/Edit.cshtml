@@ -1,0 +1,203 @@
+﻿@model Web_ManagementHouseRentals.Models.ChangeUserViewModel
+
+@{
+    ViewData["Title"] = "User Info";
+}
+
+<!--/ Intro Single star /-->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">User info</h1>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            User info
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ Intro Single End /-->
+<!--/ User info start /-->
+<div class="container">
+    <div class="row flex-lg-nowrap">
+        <div class="col">
+            <div class="row">
+                <div class="col mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="e-profile">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto mb-3">
+                                        <div class="mx-auto" style="width: 300px;">
+                                            <div class="d-flex justify-content-center align-items-center rounded" style="height: 450px; background-color: rgb(233, 236, 239);">
+                                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                                {
+                                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px; height:450px; max-width:100%; height:auto">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/images/users/avatar1.jpg" id="imgpreview" alt="Image" style="width:300px; height:450px; max-width:100%; height:auto">
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">@Model.Username</h4>
+                                        </div>
+                                        <div class="text-center text-sm-right">
+                                            <span class="badge badge-secondary">User role</span>
+                                            <div class="text-muted"><small>Joined 09 Dec 2017</small></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-content pt-3">
+                                    <div class="tab-pane active">
+                                        <form class="form" method="post" enctype="multipart/form-data">
+                                            <div asp-validation-summary="ModelOnly"></div>
+                                            <input type="hidden" asp-for="Id" />
+                                            <input type="hidden" asp-for="ImageUrl" />
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <label asp-for="ImageFile" class="control-label"></label>
+                                                            <input asp-for="ImageFile" class="form-control" type="file" />
+                                                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2"><h5>User Info</h5></div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="FirstName">First Name</label>
+                                                                <input asp-for="FirstName" class="form-control" type="text">
+                                                                <span asp-validation-for="FirstName" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="LastName">Last Name</label>
+                                                                <input asp-for="LastName" class="form-control" type="text">
+                                                                <span asp-validation-for="LastName" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="BirthDate">Birth Date</label>
+                                                                <input asp-for="BirthDate" class="form-control" type="date">
+                                                                <span asp-validation-for="BirthDate" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="Username">Username/Email</label>
+                                                                <input asp-for="Username" class="form-control" type="email">
+                                                                <span asp-validation-for="Username" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="PhoneNumber">Phone Number</label>
+                                                                <input asp-for="PhoneNumber" class="form-control" type="text">
+                                                                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="CC">CC</label>
+                                                                <input asp-for="CC" type="text" class="form-control">
+                                                                <span asp-validation-for="CC" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="NIF">NIF</label>
+                                                                <input asp-for="NIF" type="text" class="form-control">
+                                                                <span asp-validation-for="NIF" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="Address">Address</label>
+                                                                <input asp-for="Address" class="form-control" type="text">
+                                                                <span asp-validation-for="Address" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="ZipCode">Zip-Code</label>
+                                                                <input asp-for="ZipCode" class="form-control" type="text">
+                                                                <span asp-validation-for="ZipCode" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6">
+                                                    <div class="mb-2"><h5>Change Password</h5></div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="OldPassword">Current Password</label>
+                                                                <input asp-for="OldPassword" type="password" class="form-control">
+                                                                <span asp-validation-for="OldPassword" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="NewPassword">New Password</label>
+                                                                <input asp-for="NewPassword" class="form-control" type="password">
+                                                                <span asp-validation-for="NewPassword" class="text-warning"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label asp-for="Confirm">Confirm <span class="d-none d-xl-inline">Password</span></label>
+                                                                <input asp-for="Confirm" class="form-control" type="password">
+                                                            </div>
+                                                            <span asp-validation-for="Confirm" class="text-warning"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-flex justify-content-end">
+                                                    <input class="btn btn-success" type="submit" value="Save Changes" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ User info End /--

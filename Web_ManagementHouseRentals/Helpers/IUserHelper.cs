@@ -42,5 +42,9 @@ namespace Web_ManagementHouseRentals.Helpers
         Task AddUserToRoleAsync(User user, string roleName);
 
         Task<bool> IsUserInRoleAsync(User user, string RoleName);
+
+        IQueryable<User> GetAll();
+
+        Task<IList<User>> GetUsersCustomers(string roleName);
     }
 }

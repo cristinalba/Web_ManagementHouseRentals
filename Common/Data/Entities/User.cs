@@ -47,6 +47,8 @@ namespace Web_ManagementHouseRentals.Data.Entities
         [Display(Name = "Customer")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
+        
+
 
     }
 }

@@ -29,7 +29,7 @@ namespace Web_ManagementHouseRentals.Models
 
         //TODO: Várias Imagens
         //[Display(Name = "Images")]
-        //public ICollection<IFormFile> ImageFile{ get; set; }
+        //public ICollection<IFormFile> ImagesFile{ get; set; }
 
         //TODO: João Extras
 

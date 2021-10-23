@@ -11,6 +11,6 @@ namespace Web_ManagementHouseRentals.Data.Entities
 
         public string Name { get; set; }
 
-
+        public ICollection<Property> Properties { get; set; }
     }
 }

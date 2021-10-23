@@ -62,7 +62,88 @@ namespace Web_ManagementHouseRentals.Data
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
-            //await _userHelper.AddSizeTypeAsync();
+            if (!_context.EnergyCertificates.Any())
+            {
+                addEnergyCertificate("A+ - 0,9%");
+                addEnergyCertificate("A - 3,8%");
+                addEnergyCertificate("B - 6,7%");
+                addEnergyCertificate("B- - 9,9%");
+                addEnergyCertificate("C - 32,2%");
+                addEnergyCertificate("D - 26,6%");
+                addEnergyCertificate("E - 14,1%");
+                addEnergyCertificate("F - 5,8%");
+                await _context.SaveChangesAsync();
+            }
+
+            if (!_context.PropertyTypes.Any())
+            {
+                addPropertyType("Apartment");
+                addPropertyType("Home");
+                addPropertyType("Bedroom");
+                addPropertyType("Land");
+                addPropertyType("Store");
+                addPropertyType("Storage");
+                addPropertyType("Building");
+                addPropertyType("Office");
+                addPropertyType("Garage");
+                await _context.SaveChangesAsync();
+            }
+
+            if (!_context.SizeTypes.Any())
+            {
+                addSizeType("T0");
+                addSizeType("T1");
+                addSizeType("T2");
+                addSizeType("T3");
+                addSizeType("T4");
+                addSizeType("T5");
+                addSizeType("T6");
+                addSizeType("T7");
+                addSizeType("T8 or higher");
+                await _context.SaveChangesAsync();
+            }
+
+            if (!_context.Extras.Any())
+            {
+                addExtra("Swimmingpool");
+                addExtra("Garage");
+                addExtra("Elevator");
+                addExtra("Air conditioning");
+                addExtra("Backyard");
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private void addExtra(string extra)
+        {
+            _context.Extras.Add(new Extra
+            {
+                NameExtra = extra,
+            });
+        }
+
+        private void addSizeType(string type)
+        {
+            _context.SizeTypes.Add(new SizeType
+            {
+                Name = type,
+            });
+        }
+
+        private void addPropertyType(string type)
+        {
+            _context.PropertyTypes.Add(new PropertyType
+            {
+                Name = type,
+            });
+        }
+
+        private void addEnergyCertificate(string type)
+        {
+            _context.EnergyCertificates.Add(new EnergyCertificate
+            {
+                Name = type,
+            });
         }
     }
 }

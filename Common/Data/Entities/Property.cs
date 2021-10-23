@@ -11,43 +11,58 @@ namespace Web_ManagementHouseRentals.Data
     {
         public int Id { get; set; } //PropertyID
 
+        [Required]
         public PropertyType type { get; set; }
-        
+
+        [Required]
         [Display(Name = "Owner")]
         public User Owner { get; set; }
 
+        [Required]
         [Display(Name = "Property type")]
         public string NameProperty { get; set; } //property Type
 
+        [Required]
         [Display(Name = "Property description")]
         public string Description { get; set; } //property Description: text
 
+        [Required]
         [Display(Name = "Size type")]
         public SizeType SizeType { get; set; } //Size Type
 
+
         public string Address { get; set; }//Location
+
 
         [Display(Name = "Zip Code")]
         public ZipCode ZipCode { get; set; }
 
+
         [Display(Name = "Extras")]
         public ICollection<Extra> Extra { get; set; } //Amenities
 
+
         public double Area { get; set; } //Area
+
 
         public double Latitude { get; set; } //Mapa1
 
+
         public double Longitude { get; set; } //Mapa2
 
+        [Required]
         [Display(Name = "Energy Certificate")]
         public EnergyCertificate EnergyCertificate { get; set; } //QS
 
+        [Required]
         [Display(Name = "Status")]
         public bool AvailableProperty { get; set; } //Status
 
+        [Required]
         [Display(Name = "Monthly Price")]
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public double MonthlyPrice { get; set; } // Price
+
 
         [Display(Name = "Property Photos")]
         public ICollection<Property_Photo> PropertyPhotos { get; set; }

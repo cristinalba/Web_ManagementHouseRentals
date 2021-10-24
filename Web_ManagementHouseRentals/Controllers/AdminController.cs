@@ -21,19 +21,24 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IConfiguration _configuration;
+        private readonly IMailHelper _mailHelper;
         private readonly UserManager<User> _userManager;
+        private Random _random;
 
         public AdminController(IUserHelper userHelper,
                                 IImageHelper imageHelper,
                                 IConverterHelper converterHelper,
                                 IConfiguration configuration,
+                                IMailHelper mailHelper,
                                 UserManager<User> userManager)
         {
             _userHelper = userHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _configuration = configuration;
+            _mailHelper = mailHelper;
             _userManager = userManager;
+            _random = new Random();
         }
 
         // GET: AdminController
@@ -41,7 +46,12 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             return View();
         }
-
+        /////////////////////////////////////////////////////////////////////////////
+        ///                                                                 /////////
+        ///             MANAGEMENT USERS                                    /////////
+        ///                                                                 /////////
+        /////////////////////////////////////////////////////////////////////////////
+        
         // GET: AdminController/IndexCustomers
         public async Task<IActionResult> IndexCustomers()
         {
@@ -49,6 +59,27 @@ namespace Web_ManagementHouseRentals.Controllers
             //return View(_userHelper.GetAll());
 
             return View(await _userHelper.GetUsersWithThisRole("Customer"));
+        }
+
+        // GET: AdminController/IndexLandlords
+        public async Task<IActionResult> IndexLandlords()
+        {
+            var customers = await _userHelper.GetUsersWithThisRole("Customer");
+
+            var landlords = customers.Where(x => x.IsLandlord == true);
+
+            return View(landlords);
+        }
+
+
+        //// GET: AdminController/IndexTenants
+        public async Task<IActionResult> IndexTenants()
+        {
+            var customers = await _userHelper.GetUsersWithThisRole("Customer");
+
+            var tenants = customers.Where(x => x.IsLandlord==false);
+
+            return View(tenants);
         }
 
         // GET: AdminController/IndexWorkers
@@ -121,6 +152,73 @@ namespace Web_ManagementHouseRentals.Controllers
 
             return View(model);
         }
+        //Create Account of Workers
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RegisterNewWorkerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        BirthDate = model.BirthDate,
+                        PhoneNumber = model.PhoneNumber,
+                        CC = model.CC,
+                        NIF = model.NIF,
+                        Address = model.Address,
+                        ZipCode = model.ZipCode,
+                        Email = model.Username,
+                        UserName = model.Username,
+                        
+                    };
+                    model.Password = _random.Next(100000, 999999).ToString();
+                    var result = await _userHelper.AddUserAsync(user, model.Password);
+                    if (result != IdentityResult.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                        return View(model);
+                    }
+                    var isInRoleWorker = await _userHelper.IsUserInRoleAsync(user, "Worker");
+                    if (!isInRoleWorker)
+                    {
+                        await _userHelper.AddUserToRoleAsync(user, "Worker");
+                    }
+
+                    string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    string tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
+
+                    Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                        $"To allow you to log in, " +
+                        $"please click in this link:</br></br><a href = \"{tokenLink}\">to confirm your account </a></br></br>" +
+                        $"</br>Your password is: {model.Password}, we recommend to change once you are logged");
+
+                    if (response.IsSuccess)
+                    {
+                        ViewBag.Message = "The instructions to allow the user have been sent to the email";
+
+                        return View(model);
+                    }
+                }
+
+            }
+
+            return View(model);
+        }
 
         // GET: AdminController/Delete/5
         public async Task<IActionResult> Delete(string id)
@@ -163,5 +261,27 @@ namespace Web_ManagementHouseRentals.Controllers
                 return View("Error");
             }
         }
+        /////////////////////////////////////////////////////////////////////////////
+        ///                                                                 /////////
+        ///             MANAGEMENT Properties                               /////////
+        ///                                                                 /////////
+        /////////////////////////////////////////////////////////////////////////////
+        ///
+
+
+
+        /////////////////////////////////////////////////////////////////////////////
+        ///                                                                 /////////
+        ///             MANAGEMENT Contracts                                /////////
+        ///                                                                 /////////
+        /////////////////////////////////////////////////////////////////////////////
+        ///
+
+
+        /////////////////////////////////////////////////////////////////////////////
+        ///                                                                 /////////
+        ///             MANAGEMENT Proposals                                /////////
+        ///                                                                 /////////
+        /////////////////////////////////////////////////////////////////////////////
     }
 }

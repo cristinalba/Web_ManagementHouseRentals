@@ -47,7 +47,11 @@ namespace Web_ManagementHouseRentals.Data.Entities
         [Display(Name = "Customer")]
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
 
-        
+        [Display(Name = "Is Landlord?")]
+        public bool IsLandlord { get; set; }
+        //se tem um anuncio para alugar=> gravar IsLandlord=true;
+
+
 
 
     }

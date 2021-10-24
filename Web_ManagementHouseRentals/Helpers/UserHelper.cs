@@ -52,7 +52,7 @@ namespace Web_ManagementHouseRentals.Helpers
                 });
             }
         }
-        public async Task<IList<User>> GetUsersWithThisRole(string roleName)
+        public async Task<IEnumerable<User>> GetUsersWithThisRole(string roleName)
         {
             return await _userManager.GetUsersInRoleAsync(roleName);
         }
@@ -96,9 +96,7 @@ namespace Web_ManagementHouseRentals.Helpers
         {
             return _userManager.Users;
         }
-
-
-
+   
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
             return await _signInManager.PasswordSignInAsync(

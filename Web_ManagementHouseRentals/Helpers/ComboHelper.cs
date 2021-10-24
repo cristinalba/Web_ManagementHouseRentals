@@ -44,7 +44,7 @@ namespace Web_ManagementHouseRentals.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a property type...)",
+                Text = "Select type",
                 Value = "0"
             });
 

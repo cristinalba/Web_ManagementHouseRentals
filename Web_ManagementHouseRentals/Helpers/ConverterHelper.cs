@@ -88,5 +88,6 @@ namespace Web_ManagementHouseRentals.Helpers
         //        SizeType = sizeType,
         //    };
         //}
+
     }
 }

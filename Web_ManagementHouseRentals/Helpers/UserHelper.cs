@@ -52,10 +52,12 @@ namespace Web_ManagementHouseRentals.Helpers
                 });
             }
         }
-        public async Task<IList<User>> GetUsersCustomers(string roleName)
+        public async Task<IList<User>> GetUsersWithThisRole(string roleName)
         {
             return await _userManager.GetUsersInRoleAsync(roleName);
         }
+
+    
 
         public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
         {
@@ -123,5 +125,7 @@ namespace Web_ManagementHouseRentals.Helpers
                 password,
                 false);
         }
+
+     
     }
 }

@@ -37,12 +37,24 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: AdminController
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: AdminController/IndexCustomers
+        public async Task<IActionResult> IndexCustomers()
         {
             //Show Workers and Customers
-            return View(_userHelper.GetAll());
+            //return View(_userHelper.GetAll());
 
-            //return View(await _userHelper.GetUsersCustomers("Customer"));
+            return View(await _userHelper.GetUsersWithThisRole("Customer"));
+        }
+
+        // GET: AdminController/IndexWorkers
+        public async Task<IActionResult> IndexWorkers()
+        {
+            return View(await _userHelper.GetUsersWithThisRole("Worker"));
         }
 
         // GET: AdminController/Edit/5
@@ -133,10 +145,6 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-
-            //await _userManager.DeleteAsync(user);
-
-            //return RedirectToAction(nameof(Index));
 
             try
             {

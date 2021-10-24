@@ -108,6 +108,9 @@ namespace Web_ManagementHouseRentals.Controllers
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
+
+                    await _userHelper.AddUserToRoleAsync(user, "Customer");
+
                     if (result != IdentityResult.Success)
                     {
                         ModelState.AddModelError(string.Empty, "The user couldn't be created.");

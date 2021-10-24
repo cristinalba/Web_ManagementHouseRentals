@@ -12,6 +12,8 @@ namespace Web_ManagementHouseRentals.Models
 {
     public class CreatePropertyViewModel
     {
+        
+
         public string NameProperty { get; set; }
 
         public string Description { get; set; }

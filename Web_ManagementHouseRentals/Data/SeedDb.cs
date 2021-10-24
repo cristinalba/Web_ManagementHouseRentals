@@ -158,14 +158,14 @@ namespace Web_ManagementHouseRentals.Data
             if (!_context.PropertyTypes.Any())
             {
                 addPropertyType("Apartment");
-                addPropertyType("Home");
-                addPropertyType("Bedroom");
+                addPropertyType("House");                
                 addPropertyType("Land");
                 addPropertyType("Store");
                 addPropertyType("Storage");
                 addPropertyType("Building");
                 addPropertyType("Office");
                 addPropertyType("Garage");
+                addPropertyType("Commercial Property");
                 await _context.SaveChangesAsync();
             }
 

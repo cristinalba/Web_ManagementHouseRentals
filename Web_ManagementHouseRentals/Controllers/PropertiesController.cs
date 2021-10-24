@@ -55,6 +55,18 @@ namespace Web_ManagementHouseRentals.Controllers
             return View(properties);
         }
 
+        //[Authorize(Roles = "Customers")]
+        // GET: PropertiesController
+        public async Task<IActionResult> IndexCustomers()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+
+            var properties = await _propertyRepository.GetPropertiesOfCustomerAsync(user.Id);
+
+            return View(properties);
+
+        }
+
         // GET: PropertiesController/Details/5
         public async Task<ActionResult> Details(int? id)
             {
@@ -90,6 +102,7 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 List<Extra> Extras = new();
 
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 var energyCertificate = await _energyCertificateRepository.GetEnergyCertificateByIdAsync(model.EnergyCertificateId);
                 var propertyType = await _propertyTypeRepository.GetPropertyTypeByIdAsync(model.PropertyTypeId);
                 var sizeType = await _sizeTypeRepository.GetSizeTypeByIdAsync(model.SizeTypeId);
@@ -104,11 +117,11 @@ namespace Web_ManagementHouseRentals.Controllers
                     }
                 }
 
-                var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType);
+                var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType, user);
                 await _propertyRepository.CreateAsync(property);
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexCustomers));
         }
 
         // GET: PropertiesController/Edit/5

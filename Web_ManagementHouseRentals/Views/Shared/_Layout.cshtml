@@ -200,7 +200,7 @@
 
                                 @if (this.User.IsInRole("Customer"))
                                 {                               
-                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">My Properties</a>                                    
+                                    <a class="dropdown-item" asp-area="" asp-controller="Properties" asp-action="IndexCustomers">My Properties</a>                                    
                                     <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">My Proposals</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">My Contracts</a>
                                 }
@@ -433,7 +433,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#propertyIndexTable').DataTable();
-            //$('#workersTable').DataTable();
+            $('#indexPropertyCustomerTable').DataTable();
             //$('#customersTable').DataTable();
 
 

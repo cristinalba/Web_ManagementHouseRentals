@@ -38,7 +38,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-user-shield"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Welcome Admin</div>
             </a>
 
             <!-- Divider -->
@@ -93,7 +93,7 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Properties Utilities:</h6>
-                        <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Properties list</a>
+                        <a class="collapse-item" asp-area="" asp-controller="Properties" asp-action="Index">Properties list</a>
                         <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Pending properties</a>
                         <a class="collapse-item" href="utilities-animation.html">Overview</a>
                     </div>
@@ -130,24 +130,24 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            @*<li class="nav-item">
                 <a asp-area="" asp-controller="" asp-action="" class="nav-link">
                     <i class="fas fa-fw fa-user-plus"></i>
                     <span>One Click Action !</span>
                 </a>
-            </li>
+            </li>*@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
                    aria-expanded="true" aria-controls="collapseUsers">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Users</span>
+                    <span>Customers</span>
                 </a>
                 <div id="collapseUsers" class="collapse" aria-labelledby="headingEmployees" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Users Utilities:</h6>
-                        <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexCustomers">Users list</a>
+                        <h6 class="collapse-header">Customers Utilities:</h6>
+                        <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexCustomers">Customers list</a>
                         <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Something here!</a>
                     </div>
                 </div>
@@ -158,13 +158,13 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudents"
                    aria-expanded="true" aria-controls="collapseStudents">
                     <i class="fas fa-fw fa-id-card-alt"></i>
-                    <span>Employees</span>
+                    <span>Workers</span>
                 </a>
                 <div id="collapseStudents" class="collapse" aria-labelledby="headingStudents"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Employees Utilities:</h6>
-                        <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexWorkers">Employees list</a>
+                        <h6 class="collapse-header">Workers Utilities:</h6>
+                        <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexWorkers">Workers list</a>
                         <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Overview</a>
                     </div>
                 </div>
@@ -180,10 +180,13 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Logout</span>
-                </a>
+                          <li class="nav-item active">
+                              <a class="nav-link" asp-controller="Account" asp-action="Logout">
+                                  <i class="fas fa-fw fa-table"></i>
+                                  <span>Logout</span>
+                              </a>
+                          </li>
+
             </li>
 
 

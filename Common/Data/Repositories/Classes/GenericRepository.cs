@@ -53,7 +53,7 @@ namespace Common.Data.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task UpdateAsynk(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _dataContext.Set<T>().Update(entity);
             await SaveAllAsync();

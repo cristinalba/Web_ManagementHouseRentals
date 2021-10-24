@@ -29,5 +29,10 @@ namespace Common.Data.Repositories
                                           .Include(p => p.PropertyPhotos)
                                           .FirstOrDefaultAsync();
         }
+
+        public async Task<Property> GetPropertyByIdAsync(int id)
+        {
+            return await _dataContext.Properties.Where(p => p.Id == id).FirstOrDefaultAsync();
+        }
     }
 }

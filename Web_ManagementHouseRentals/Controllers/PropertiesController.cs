@@ -64,7 +64,7 @@ namespace Web_ManagementHouseRentals.Controllers
                 return new NotFoundViewResult("PropertyNotFound");
             }
 
-            return View();
+            return View(property);
         }
 
         // GET: PropertiesController/Create
@@ -119,28 +119,54 @@ namespace Web_ManagementHouseRentals.Controllers
                 return new NotFoundViewResult("PropertyNotFound");
             }
 
+            var model = new EditPropertyViewModel();
             var property = await _propertyRepository.GetByIdAsync(id.Value);
             if(property == null)
             {
                 return new NotFoundViewResult("PropertyNotFound");
             }
-
-            return View();
+            model.Id = property.Id;
+            model.MonthlyPrice = property.MonthlyPrice;
+            return View(model);
         }
 
         // POST: PropertiesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, EditPropertyViewModel model)
         {
+            if (id != model.Id)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                var property = await _propertyRepository.GetPropertyByIdAsync(model.Id);
+
+                if(property != null)
+                {
+                    property.MonthlyPrice = model.MonthlyPrice;
+                    await _propertyRepository.UpdateAsync(property);
+                }
+                else
+                {
+                    return new NotFoundViewResult("PropertyNotFound");
+                }
             }
-            catch
+            catch (DbUpdateConcurrencyException)
             {
-                return View();
+                if (!await _propertyRepository.ExistAsync(model.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: PropertiesController/Delete/5

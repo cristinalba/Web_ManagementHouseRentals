@@ -11,6 +11,7 @@ namespace Web_ManagementHouseRentals.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
+        //USER
         public User ToUser(ChangeUserViewModel model, string path)
         {
 
@@ -30,29 +31,6 @@ namespace Web_ManagementHouseRentals.Helpers
             };
         }
 
-        public Property ToProperty(CreatePropertyViewModel model)
-        {
-
-            return new Property
-            {
-                //TODO: Em teste no controlador para já
-
-                //NameProperty = model.NameProperty,
-                //Description = model.Description,
-                //Address = model.Address,
-                //Area = model.Area,
-                //AvailableProperty = model.AvailableProperty,
-                //MonthlyPrice = model.MonthlyPrice,
-                //PropertyTypes = model.PropertyTypes,
-                //EnergyCertificates = model.EnergyCertificateId,
-                //SizeTypes =
-                //ZipCode = model.ZipCode,
-                //Email = model.Username,
-                //UserName = model.Username,
-            };
-        }
-
-
         public ChangeUserViewModel ToChangeUserViewModel(User user)
         {
             return new ChangeUserViewModel
@@ -71,5 +49,42 @@ namespace Web_ManagementHouseRentals.Helpers
                 ImageUrl = user.ImageUrl
             };
         }
+
+        //PROPERTY
+        public Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType)
+        {
+
+            return new Property
+            {
+                NameProperty = model.NameProperty,
+                Description = model.Description,
+                Address = model.Address,
+                Area = model.Area,
+                AvailableProperty = model.AvailableProperty,
+                MonthlyPrice = model.MonthlyPrice,
+                Type = propertyType,
+                EnergyCertificate = energyCertificate,
+                Extra = Extras,
+                SizeType = sizeType,
+            };
+        }
+
+        //TODO: Deixamos o cliente editar todos os campos?
+        //public CreatePropertyViewModel ToPropertyViewModel(Property property)
+        //{
+        //    return new CreatePropertyViewModel
+        //    {
+        //        NameProperty = property.NameProperty,
+        //        Description = property.Description,
+        //        Address = property.Address,
+        //        Area = property.Area,
+        //        AvailableProperty = property.AvailableProperty,
+        //        MonthlyPrice = property.MonthlyPrice,
+        //        Type = property.PropertyType,
+        //        EnergyCertificate = energyCertificate,
+        //        Extra = Extras,
+        //        SizeType = sizeType,
+        //    };
+        //}
     }
 }

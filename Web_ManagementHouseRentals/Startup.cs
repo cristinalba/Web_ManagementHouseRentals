@@ -63,7 +63,7 @@ namespace Web_ManagementHouseRentals
             });
             services.AddControllersWithViews();
 
-            //Use the Seed the first time DB is executed
+            //Use Seed the first time DB is executed
             services.AddTransient<SeedDb>();
             //Helpers
             services.AddScoped<IUserHelper, UserHelper>();
@@ -82,6 +82,13 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
             services.AddScoped<IProperty_PhotoRepository, Property_PhotoRepository>();
             services.AddScoped<IExtraRepository, ExtraRepository>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
+
 
         }
 

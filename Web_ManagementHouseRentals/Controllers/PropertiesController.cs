@@ -22,6 +22,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IEnergyCertificateRepository _energyCertificateRepository;
         private readonly IPropertyTypeRepository _propertyTypeRepository;
         private readonly ISizeTypeRepository _sizeTypeRepository;
+        private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -30,7 +31,8 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IExtraRepository extraRepository,
                                     IEnergyCertificateRepository energyCertificateRepository,
                                     IPropertyTypeRepository propertyTypeRepository,
-                                    ISizeTypeRepository sizeTypeRepository)
+                                    ISizeTypeRepository sizeTypeRepository,
+                                    IConverterHelper converterHelper)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -38,6 +40,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _energyCertificateRepository = energyCertificateRepository;
             _propertyTypeRepository = propertyTypeRepository;
             _sizeTypeRepository = sizeTypeRepository;
+            _converterHelper = converterHelper;
             _userHelper = userHelper;
         }
 
@@ -53,12 +56,12 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: PropertiesController/Details/5
-        public ActionResult Details(int? id)
-        {
-            var property = _propertyRepository.GetByIdWithInfoAsync(id.Value);
+        public async Task<ActionResult> Details(int? id)
+            {
+            var property = await _propertyRepository.GetByIdWithInfoAsync(id.Value);
             if (property == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             return View();
@@ -85,37 +88,23 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Extra> Extras = new List<Extra>();
+                List<Extra> Extras = new();
 
                 var energyCertificate = await _energyCertificateRepository.GetEnergyCertificateByIdAsync(model.EnergyCertificateId);
                 var propertyType = await _propertyTypeRepository.GetPropertyTypeByIdAsync(model.PropertyTypeId);
                 var sizeType = await _sizeTypeRepository.GetSizeTypeByIdAsync(model.SizeTypeId);
 
-                foreach (var item in selectedExtras)
+                if(selectedExtras.Length != 0)
                 {
-                    int selectedExtraId = Convert.ToInt32(item);
-                    var extra = await _extraRepository.GetExtraByIdAsync(selectedExtraId);
-
-                    if(extra != null)
+                    foreach (var item in selectedExtras)
                     {
+                        int selectedExtraId = Convert.ToInt32(item);
+                        var extra = await _extraRepository.GetExtraByIdAsync(selectedExtraId);
                         Extras.Add(extra);
                     }
                 }
 
-                Property property = new()
-                {
-                    NameProperty = model.NameProperty,
-                    Description = model.Description,
-                    Address = model.Address,
-                    Area = model.Area,
-                    AvailableProperty = model.AvailableProperty,
-                    MonthlyPrice = model.MonthlyPrice,
-                    Type = propertyType,
-                    EnergyCertificate = energyCertificate,
-                    Extra = Extras,
-                    SizeType = sizeType,
-                };
-
+                var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType);
                 await _propertyRepository.CreateAsync(property);
             }
 
@@ -123,8 +112,19 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: PropertiesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
+            if (id == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+            if(property == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
             return View();
         }
 
@@ -144,24 +144,43 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: PropertiesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+            if (property == null)
+            {
+                return new NotFoundViewResult("ProductNotFound");
+            }
+
+            return View(property);
         }
 
         // POST: PropertiesController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            var property = await _propertyRepository.GetByIdAsync(id);
+
             try
             {
+                await _propertyRepository.DeleteAsync(property);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(DbUpdateException ex)
             {
                 return View();
             }
+        }
+
+        public IActionResult PropertyNotFound()
+        {
+            return View();
         }
     }
 }

@@ -108,6 +108,9 @@ namespace Web_ManagementHouseRentals.Controllers
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
+
+                    await _userHelper.AddUserToRoleAsync(user, "Customer");
+
                     if (result != IdentityResult.Success)
                     {
                         ModelState.AddModelError(string.Empty, "The user couldn't be created.");
@@ -123,7 +126,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
                     Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
                         $"To allow the user, " +
-                        $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
                     if (response.IsSuccess)
                     {

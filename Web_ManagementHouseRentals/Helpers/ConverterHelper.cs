@@ -51,9 +51,9 @@ namespace Web_ManagementHouseRentals.Helpers
         }
 
         //PROPERTY
-        public Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType)
+        public Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner)
         {
-
+            owner.IsLandlord = true;
             return new Property
             {
                 NameProperty = model.NameProperty,
@@ -66,7 +66,9 @@ namespace Web_ManagementHouseRentals.Helpers
                 EnergyCertificate = energyCertificate,
                 Extra = Extras,
                 SizeType = sizeType,
+                Owner = owner
             };
+
         }
 
         //TODO: Deixamos o cliente editar todos os campos?

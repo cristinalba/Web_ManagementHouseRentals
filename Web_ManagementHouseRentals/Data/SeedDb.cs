@@ -69,6 +69,7 @@ namespace Web_ManagementHouseRentals.Data
                     LastName = "Flores",
                     Email = "landlord@yopmail.com",
                     UserName = "landlord@yopmail.com",
+                    IsLandlord = true,
                     CC = _random.Next(10000000, 59999999).ToString(),
                     NIF = _random.Next(100000000, 599999999).ToString(),
                     ZipCode = $"{_random.Next(1000, 9999).ToString()}-{_random.Next(100, 999).ToString()}",
@@ -118,7 +119,7 @@ namespace Web_ManagementHouseRentals.Data
             await _userHelper.ConfirmEmailAsync(user, token);
 
             var isInRoleWorker = await _userHelper.IsUserInRoleAsync(userWorker, "Worker");
-            if (!isInRole)
+            if (!isInRoleWorker)
             {
                 await _userHelper.AddUserToRoleAsync(user, "Worker");
             }
@@ -157,14 +158,14 @@ namespace Web_ManagementHouseRentals.Data
             if (!_context.PropertyTypes.Any())
             {
                 addPropertyType("Apartment");
-                addPropertyType("Home");
-                addPropertyType("Bedroom");
+                addPropertyType("House");                
                 addPropertyType("Land");
                 addPropertyType("Store");
                 addPropertyType("Storage");
                 addPropertyType("Building");
                 addPropertyType("Office");
                 addPropertyType("Garage");
+                addPropertyType("Commercial Property");
                 await _context.SaveChangesAsync();
             }
 

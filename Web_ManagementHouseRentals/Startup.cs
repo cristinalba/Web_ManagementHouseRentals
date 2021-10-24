@@ -61,7 +61,7 @@ namespace Web_ManagementHouseRentals
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllersWithViews();
+            
 
             //Use Seed the first time DB is executed
             services.AddTransient<SeedDb>();
@@ -89,7 +89,7 @@ namespace Web_ManagementHouseRentals
                 options.AccessDeniedPath = "/Account/NotAuthorized";
             });
 
-
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,8 +113,9 @@ namespace Web_ManagementHouseRentals
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {

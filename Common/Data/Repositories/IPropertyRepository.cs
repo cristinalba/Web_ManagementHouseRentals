@@ -10,7 +10,9 @@ namespace Common.Data.Repositories
     public interface IPropertyRepository : IGenericRepository<Property>
     {
         Task<Property> GetByIdWithInfoAsync(int id);
-
+        
         Task<Property> GetPropertyByIdAsync(int id);
+        
+        Task<IEnumerable<Property>> GetPropertiesOfCustomerAsync(string id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,15 @@ namespace Common.Data.Repositories.Classes
 
         public PropertyTypeRepository(DataContext dataContext) : base(dataContext)
         {
-            _dataContext = dataContext;
+            _dataContext = dataContext;    
         }
+
+
+        public async Task<PropertyType> GetPropertyTypeByIdAsync(int id)
+        {
+            return await _dataContext.PropertyTypes.Where(pt => pt.Id == id).FirstOrDefaultAsync();
+        }
+
+
     }
 }

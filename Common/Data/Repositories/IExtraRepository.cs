@@ -9,6 +9,8 @@ namespace Common.Data.Repositories
 {
     public interface IExtraRepository : IGenericRepository<Extra>
     {
+        Task<List<Extra>> GetAllExtras();
 
+        Task<Extra> GetExtraByIdAsync(int id);
     }
 }

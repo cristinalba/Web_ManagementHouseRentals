@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Web_ManagementHouseRentals.Data;
+using Web_ManagementHouseRentals.Data.Entities;
 using Web_ManagementHouseRentals.Helpers;
 using Web_ManagementHouseRentals.Models;
 
@@ -16,14 +18,26 @@ namespace Web_ManagementHouseRentals.Controllers
     {
         private readonly IPropertyRepository _propertyRepository;
         private readonly IComboHelper _comboHelper;
+        private readonly IExtraRepository _extraRepository;
+        private readonly IEnergyCertificateRepository _energyCertificateRepository;
+        private readonly IPropertyTypeRepository _propertyTypeRepository;
+        private readonly ISizeTypeRepository _sizeTypeRepository;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
                                     IPropertyRepository propertyRepository, 
-                                    IComboHelper comboHelper)
+                                    IComboHelper comboHelper,
+                                    IExtraRepository extraRepository,
+                                    IEnergyCertificateRepository energyCertificateRepository,
+                                    IPropertyTypeRepository propertyTypeRepository,
+                                    ISizeTypeRepository sizeTypeRepository)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
+            _extraRepository = extraRepository;
+            _energyCertificateRepository = energyCertificateRepository;
+            _propertyTypeRepository = propertyTypeRepository;
+            _sizeTypeRepository = sizeTypeRepository;
             _userHelper = userHelper;
         }
 
@@ -51,13 +65,14 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: PropertiesController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             var model = new CreatePropertyViewModel
             {
                 PropertyTypes = _comboHelper.GetComboPropertyTypes(),
                 SizeTypes = _comboHelper.GetComboSizeTypes(),
                 EnergyCertificates = _comboHelper.GetComboCertificate(),
+                Extras = await _extraRepository.GetAllExtras(),
             };
 
             return View(model);
@@ -66,16 +81,45 @@ namespace Web_ManagementHouseRentals.Controllers
         // POST: PropertiesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreatePropertyViewModel model, string[] selectedExtras)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                List<Extra> Extras = new List<Extra>();
+
+                var energyCertificate = await _energyCertificateRepository.GetEnergyCertificateByIdAsync(model.EnergyCertificateId);
+                var propertyType = await _propertyTypeRepository.GetPropertyTypeByIdAsync(model.PropertyTypeId);
+                var sizeType = await _sizeTypeRepository.GetSizeTypeByIdAsync(model.SizeTypeId);
+
+                foreach (var item in selectedExtras)
+                {
+                    int selectedExtraId = Convert.ToInt32(item);
+                    var extra = await _extraRepository.GetExtraByIdAsync(selectedExtraId);
+
+                    if(extra != null)
+                    {
+                        Extras.Add(extra);
+                    }
+                }
+
+                Property property = new()
+                {
+                    NameProperty = model.NameProperty,
+                    Description = model.Description,
+                    Address = model.Address,
+                    Area = model.Area,
+                    AvailableProperty = model.AvailableProperty,
+                    MonthlyPrice = model.MonthlyPrice,
+                    Type = propertyType,
+                    EnergyCertificate = energyCertificate,
+                    Extra = Extras,
+                    SizeType = sizeType,
+                };
+
+                await _propertyRepository.CreateAsync(property);
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PropertiesController/Edit/5

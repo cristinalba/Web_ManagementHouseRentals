@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,12 @@ namespace Common.Data.Repositories.Classes
         {
             _dataContext = dataContext;
         }
+
+
+        public async Task<EnergyCertificate> GetEnergyCertificateByIdAsync(int id)
+        {
+            return await _dataContext.EnergyCertificates.Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+
     }
 }

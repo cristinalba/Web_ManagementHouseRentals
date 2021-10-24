@@ -118,7 +118,7 @@ namespace Web_ManagementHouseRentals.Data
         {
             _context.Extras.Add(new Extra
             {
-                NameExtra = extra,
+                Name = extra,
             });
         }
 

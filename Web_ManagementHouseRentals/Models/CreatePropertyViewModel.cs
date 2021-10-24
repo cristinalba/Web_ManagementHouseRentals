@@ -31,7 +31,7 @@ namespace Web_ManagementHouseRentals.Models
         //[Display(Name = "Images")]
         //public ICollection<IFormFile> ImagesFile{ get; set; }
 
-        //TODO: João Extras
+        public List<Extra> Extras { get; set; }
 
         public int PropertyTypeId { get; set; }
 

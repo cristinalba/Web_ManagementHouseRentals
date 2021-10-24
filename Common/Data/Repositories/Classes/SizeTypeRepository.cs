@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,12 @@ namespace Common.Data.Repositories.Classes
         public SizeTypeRepository(DataContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
+        }
+
+
+        public async Task<SizeType> GetSizeTypeByIdAsync(int id)
+        {
+            return await _dataContext.SizeTypes.Where(pt => pt.Id == id).FirstOrDefaultAsync();
         }
     }
 }

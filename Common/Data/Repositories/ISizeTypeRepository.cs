@@ -9,5 +9,6 @@ namespace Common.Data.Repositories
 {
     public interface ISizeTypeRepository : IGenericRepository<SizeType>
     {
+        Task<SizeType> GetSizeTypeByIdAsync(int id);
     }
 }

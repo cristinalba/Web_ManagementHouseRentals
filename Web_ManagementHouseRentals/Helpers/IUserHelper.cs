@@ -45,6 +45,8 @@ namespace Web_ManagementHouseRentals.Helpers
 
         IQueryable<User> GetAll();
 
-        Task<IList<User>> GetUsersCustomers(string roleName);
+        Task<IList<User>> GetUsersWithThisRole(string roleName);
+
+        
     }
 }

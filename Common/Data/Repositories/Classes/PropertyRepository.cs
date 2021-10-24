@@ -20,7 +20,7 @@ namespace Common.Data.Repositories
         public async Task<Property> GetByIdWithInfoAsync(int id)
         {
             return await _dataContext.Properties.Where(P => P.Id == id)
-                                          .Include(p => p.type)
+                                          .Include(p => p.Type)
                                           .Include(p => p.Owner)
                                           .Include(p => p.SizeType)
                                           .Include(p => p.ZipCode)

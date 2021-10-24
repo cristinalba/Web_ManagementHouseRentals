@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,17 @@ namespace Common.Data.Repositories.Classes
         {
             _dataContext = dataContext;
         }
+
+        public async Task<List<Extra>> GetAllExtras()
+        {
+            return await _dataContext.Extras.ToListAsync();
+        }
+
+
+        public async Task<Extra> GetExtraByIdAsync(int id)
+        {
+            return await _dataContext.Extras.Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+
     }
 }

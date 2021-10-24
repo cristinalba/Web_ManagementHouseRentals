@@ -9,5 +9,6 @@ namespace Common.Data.Repositories
 {
     public interface IPropertyTypeRepository : IGenericRepository<PropertyType>
     {
+        Task<PropertyType> GetPropertyTypeByIdAsync(int id);
     }
 }

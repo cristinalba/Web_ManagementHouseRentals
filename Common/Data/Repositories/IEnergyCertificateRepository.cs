@@ -9,5 +9,7 @@ namespace Common.Data.Repositories
 {
     public interface IEnergyCertificateRepository : IGenericRepository<EnergyCertificate>
     {
+        Task<EnergyCertificate> GetEnergyCertificateByIdAsync(int id);
+
     }
 }

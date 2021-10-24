@@ -12,7 +12,7 @@ namespace Web_ManagementHouseRentals.Data
         public int Id { get; set; } //PropertyID
 
         [Required]
-        public PropertyType type { get; set; }
+        public PropertyType Type { get; set; }
 
         [Required]
         [Display(Name = "Owner")]

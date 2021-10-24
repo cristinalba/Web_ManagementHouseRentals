@@ -12,9 +12,6 @@ namespace Web_ManagementHouseRentals.Helpers
 
         ICollection<SelectListItem> GetComboSizeTypes();
 
-        //TODO: João Check box
-        //ICollection<SelectListItem> GetComboExtras();
-
         ICollection<SelectListItem> GetComboCertificate();
     }
 }

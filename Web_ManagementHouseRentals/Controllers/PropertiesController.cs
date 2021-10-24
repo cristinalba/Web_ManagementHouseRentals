@@ -209,7 +209,7 @@ namespace Web_ManagementHouseRentals.Controllers
             try
             {
                 await _propertyRepository.DeleteAsync(property);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexCustomers));
             }
             catch(DbUpdateException ex)
             {

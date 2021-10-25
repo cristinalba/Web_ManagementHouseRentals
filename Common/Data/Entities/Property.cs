@@ -19,7 +19,7 @@ namespace Web_ManagementHouseRentals.Data
         public User Owner { get; set; }
 
         [Required]
-        [Display(Name = "Property type")]
+        [Display(Name = "Property name")]
         public string NameProperty { get; set; } //property Type
 
         [Required]

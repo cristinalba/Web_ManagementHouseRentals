@@ -11,15 +11,17 @@ namespace Common.Data.Entities
     public class Proposal : IEntity
     {
         public int Id { get; set; }
-   
+
         public Property property { get; set; }
 
         public ProposalState proposalState { get; set; }
 
         public string Message { get; set; }
 
-        //datas??
-        //checked??
-        //quem envia
+        public DateTime ProposalDate { get; set; }
+
+        public User Owner { get; set; }
+
+        public User Client { get; set; }
     }
 }

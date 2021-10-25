@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
+using Web_ManagementHouseRentals.Models;
 
-namespace Common.Data.Repositories
+namespace Web_ManagementHouseRentals.Helpers
 {
-    public interface IProposalRepository : IGenericRepository<Proposal>
+    public class ProposalHelper : IProposalHelper
     {
-        ProposalState GetProposalStates(int id);
+        
     }
 }

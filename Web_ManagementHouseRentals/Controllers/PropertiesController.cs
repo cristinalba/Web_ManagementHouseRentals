@@ -66,7 +66,7 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> IndexCustomers()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-
+            
             var properties = await _propertyRepository.GetPropertiesOfCustomerAsync(user.Id);
 
             return View(properties);

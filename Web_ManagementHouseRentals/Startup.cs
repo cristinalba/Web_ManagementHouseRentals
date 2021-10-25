@@ -75,6 +75,7 @@ namespace Web_ManagementHouseRentals
             //Repositories
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
+
             services.AddScoped<IProposalRepository, ProposalRepository>();
             services.AddScoped<ISizeTypeRepository, SizeTypeRepository>();
             services.AddScoped<IPropertyTypeRepository, PropertyTypeRepository>();

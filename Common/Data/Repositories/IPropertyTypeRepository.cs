@@ -9,6 +9,7 @@ namespace Common.Data.Repositories
 {
     public interface IPropertyTypeRepository : IGenericRepository<PropertyType>
     {
+        Task<List<PropertyType>> GetAllTypes();
         Task<PropertyType> GetPropertyTypeByIdAsync(int id);
     }
 }

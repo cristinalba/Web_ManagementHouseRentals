@@ -26,7 +26,6 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IProposalRepository _proposalRepository;
-        private readonly IProposalHelper _proposalHelper;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -39,8 +38,7 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IConverterHelper converterHelper,
                                     IImageHelper imageHelper,
                                     IProperty_PhotoRepository property_PhotoRepository,
-                                    IProposalRepository proposalRepository,
-                                    IProposalHelper proposalHelper)
+                                    IProposalRepository proposalRepository)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -52,7 +50,6 @@ namespace Web_ManagementHouseRentals.Controllers
             _imageHelper = imageHelper;
             _property_PhotoRepository = property_PhotoRepository;
             _proposalRepository = proposalRepository;
-            _proposalHelper = proposalHelper;
             _userHelper = userHelper;
         }
 
@@ -255,45 +252,39 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
 
-        ////CREATE PROPOSAL
-        //[HttpPost]
-        //public async Task<IActionResult> Details(PropertyDetailsViewModel model)
-        //{
-        //    var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-        //    var proposalState =  _proposalRepository.GetProposalStates(1);
-        //    var property = await _propertyRepository.GetByIdWithInfoAsync(model.Id);
+        public async Task<IActionResult> SendProposal(int? id)
+        {
+            var property = await _propertyRepository.GetByIdWithInfoAsync(id.Value);
+            var model = new CreateProposalViewModel
+            {
+                PropertyId = id.Value,
+                OwnerName = property.Owner.FullName,
+            };
 
-        //    var newModel = new PropertyDetailsViewModel
-        //    {
-        //        Id = property.Id,
-        //        Type = property.Type,
-        //        Owner = property.Owner,
-        //        NameProperty = property.NameProperty,
-        //        Description = property.Description,
-        //        SizeType = property.SizeType,
-        //        Address = property.Address,
-        //        ZipCode = property.ZipCode,
-        //        Extra = property.Extra,
-        //        Area = property.Area,
-        //        Latitude = property.Latitude,
-        //        Longitude = property.Longitude,
-        //        EnergyCertificate = property.EnergyCertificate,
-        //        AvailableProperty = property.AvailableProperty,
-        //        MonthlyPrice = property.MonthlyPrice,
-        //        PropertyPhotos = property.PropertyPhotos,
-        //        Property = property,
-        //    };
+            return View(model);
+        }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var proposal = _proposalHelper.CreateProposalAsync(newModel, user, proposalState);
-        //        await _proposalRepository.CreateAsync(proposal);
-        //        ViewBag.Message = "Message sent successfully!";
-        //        return View(newModel);
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> SendProposal(CreateProposalViewModel model)
+        {
+            var client = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
+            var owner = await _userHelper.GetUserByEmailAsync(property.Owner.Email);
+            var proposalState =  _proposalRepository.GetProposalStates(1);
 
-        //    return View(newModel);
-        //}
+            if (ModelState.IsValid)
+            {
+                var proposal =_converterHelper.ToProposalAsync(model, client, owner, property, proposalState);
+                await _proposalRepository.CreateAsync(proposal);
+                ViewBag.Message = "Message sent successfully!";
+                model.Message = "";
+                model.Name = "";
+                model.Email = "";
+                return View(model);
+            }
+
+            return View(model);
+        }
 
         public IActionResult PropertyNotFound()
         {

@@ -1,93 +1,197 @@
 ﻿@model IEnumerable<Web_ManagementHouseRentals.Data.Property>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Properties";
 }
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h4 class="m-0 font-weight-bold text-primary">List of Properties</h4>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive justify-content-center">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Owner.FullName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.NameProperty)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Address)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Area)
-                        </th>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameProperty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableProperty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MonthlyPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameProperty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableProperty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonthlyPrice)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-                        <th>
-                            @Html.DisplayNameFor(model => model.AvailableProperty)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.MonthlyPrice)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Owner.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NameProperty)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Address)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Area)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AvailableProperty)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MonthlyPrice)
-                        </td>
-                        <td>
-                            <a class="btn btn-info btn-icon-split btn-sm" asp-action="Details" asp-route-id="@item.Id">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-info-circle"></i>
-                                </span>
-                                <span class="text">Details</span>
-                            </a>
-                            <a class="btn btn-warning btn-icon-split btn-sm" asp-action="Edit" asp-route-id="@item.Id">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </span>
-                                <span class="text">Edit</span>
-                            </a>
-                            <a class="btn btn-danger btn-icon-split btn-sm" asp-action="Delete" asp-route-id="@item.Id">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Delete</span>
-                            </a>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+<!--/ Intro Single star /-->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">Our Amazing Properties</h1>
+                    <span class="color-text-a">Grid Properties</span>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+                <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Properties Grid
+                        </li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
-</div>
+</section>
+<!--/ Intro Single End /-->
+<!--/ Property Grid Star /-->
+<section class="property-grid grid">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="grid-option">
+                    <form>
+                        <select class="custom-select">
+                            <option selected>All</option>
+                            <option value="1">New to Old</option>
+                            <option value="2">For Rent</option>
+                            <option value="3">For Sale</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card-box-a card-shadow">
+                        <div class="img-box-a">
+                            <img src="@Url.Content(item.PropertyPhotos.FirstOrDefault().ToString())"alt="" class="img-a img-fluid">
+                        </div>
+                        <div class="card-overlay">
+                            <div class="card-overlay-a-content">
+                                <div class="card-header-a">
+                                    <h2 class="card-title-a">
+                                        <a asp-controller="Properties" asp-action="Details">
+                                            @Html.DisplayFor(modelItem => item.NameProperty)
+                                        </a>
+                                    </h2>
+                                </div>
+                                <div class="card-body-a">
+                                    <div class="price-box d-flex">
+                                        <span class="price-a">rent | @Html.DisplayFor(modelItem => item.MonthlyPrice) €</span>
+                                    </div>
+                                    <a asp-controller="Properties" asp-action="Details" class="link-a">
+                                        Click here to view
+                                        <span class="ion-ios-arrow-forward"></span>
+                                    </a>
+                                </div>
+                                <div class="card-footer-a">
+                                    <ul class="card-info d-flex justify-content-around">
+                                        <li>
+                                            <h4 class="card-info-title">Area</h4>
+                                            <span>
+                                                @Html.DisplayFor(modelItem => item.Area)
+                                                <sup>2</sup>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <h4 class="card-info-title">Size</h4>
+                                            <span>@Html.DisplayFor(modelItem => item.SizeType.Name)</span>
+                                        </li>
+                                        <li>
+                                            <h4 class="card-info-title">Property type</h4>
+                                            <span>@Html.DisplayFor(modelItem => item.Type.Name)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav class="pagination-a">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <span class="ion-ios-arrow-back"></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item next">
+                                <a class="page-link" href="#">
+                                    <span class="ion-ios-arrow-forward"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ Property Grid End /-->

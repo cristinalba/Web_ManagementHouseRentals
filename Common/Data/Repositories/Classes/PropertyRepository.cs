@@ -30,14 +30,21 @@ namespace Common.Data.Repositories
                                           .FirstOrDefaultAsync();
         }
 
-
         public async Task<Property> GetPropertyByIdAsync(int id)
         {
             return await _dataContext.Properties.Where(p => p.Id == id).FirstOrDefaultAsync();
-        }    
+        } 
+        
         public async Task<IEnumerable<Property>> GetPropertiesOfCustomerAsync(string id)
         {
             return await _dataContext.Properties.Where(u => u.Owner.Id == id).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Property>> GetPropertiesToIndexAsync()
+        {
+            return await _dataContext.Properties.Include(p => p.Type)
+                                          .Include(p => p.SizeType)
+                                          .Include(p => p.PropertyPhotos).ToListAsync();
         }
     }
 }

@@ -55,15 +55,15 @@ namespace Web_ManagementHouseRentals.Controllers
 
         //[Authorize(Roles = "Admin")]
         // GET: PropertiesController
-        public ActionResult Index()
+        public async Task<ActionResult> Index(int page = 1)
         {
-            var properties = _propertyRepository.GetAll()
-                .Include(p => p.SizeType)
-                .Include(p => p.Type)
-                .Include(p => p.EnergyCertificate)
-                .OrderBy(o => o.MonthlyPrice);
+            ShowPropertiesIndexViewModel propertiesView = new ShowPropertiesIndexViewModel();
 
-            return View(properties);
+            propertiesView.PropertiesPerPage = 6;
+            propertiesView.Properties = await _propertyRepository.GetPropertiesToIndexAsync();
+            propertiesView.CurrentPage = page;
+
+            return View(propertiesView);
         }
 
         //[Authorize(Roles = "Customers")]

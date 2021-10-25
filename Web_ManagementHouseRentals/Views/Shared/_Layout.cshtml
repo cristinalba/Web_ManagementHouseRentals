@@ -191,7 +191,7 @@
                                 @this.User.Identity.Name
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @if (this.User.IsInRole("Admin"))
+                                @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
                                 {
                                     <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
                                 }

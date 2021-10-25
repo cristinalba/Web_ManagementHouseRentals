@@ -46,9 +46,21 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: AdminController
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var customers = await _userHelper.GetUsersWithThisRole("Customer");
+            var landlords = customers.Where(x => x.IsLandlord == true);
+            var tenants = customers.Where(x => x.IsLandlord == false);
+            var workers = await _userHelper.GetUsersWithThisRole("Worker");         
+
+            var model = new AdminViewModel 
+            { 
+              TotalLandlords=  landlords.Count(),
+              TotalTenants = tenants.Count(),
+              TotalWorkers = workers.Count(),
+              TotalProperties = _propertyRepository.GetAll().Count()
+            };
+            return View(model);
         }
         /////////////////////////////////////////////////////////////////////////////
         ///                                                                 /////////

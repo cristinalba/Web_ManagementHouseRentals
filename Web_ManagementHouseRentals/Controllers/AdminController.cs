@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Common.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
         private readonly UserManager<User> _userManager;
+        private readonly IPropertyRepository _propertyRepository;
         private Random _random;
 
         public AdminController(IUserHelper userHelper,
@@ -30,7 +32,8 @@ namespace Web_ManagementHouseRentals.Controllers
                                 IConverterHelper converterHelper,
                                 IConfiguration configuration,
                                 IMailHelper mailHelper,
-                                UserManager<User> userManager)
+                                UserManager<User> userManager,
+                                IPropertyRepository propertyRepository)
         {
             _userHelper = userHelper;
             _imageHelper = imageHelper;
@@ -38,6 +41,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _configuration = configuration;
             _mailHelper = mailHelper;
             _userManager = userManager;
+            _propertyRepository = propertyRepository;
             _random = new Random();
         }
 
@@ -277,9 +281,15 @@ namespace Web_ManagementHouseRentals.Controllers
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
 
+        // GET: PropertiesController
+        public ActionResult IndexProperties()
+        {
+            var properties = _propertyRepository.GetAll()
+                .Include(x => x.Owner)
+                .OrderBy(o => o.MonthlyPrice);
 
-
-
+            return View(properties);
+        }
 
         /////////////////////////////////////////////////////////////////////////////
         ///                                                                 /////////

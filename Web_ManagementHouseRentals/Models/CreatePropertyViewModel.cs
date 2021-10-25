@@ -27,12 +27,8 @@ namespace Web_ManagementHouseRentals.Models
         [Display(Name = "Monthly Price")]
         public double MonthlyPrice { get; set; }
 
-        [Display(Name = "Image")]
-        public IFormFile ImageFile{ get; set; }
-
-        //TODO: Várias Imagens
-        //[Display(Name = "Images")]
-        //public ICollection<IFormFile> ImagesFile{ get; set; }
+        [Display(Name = "Images")]
+        public ICollection<IFormFile> ImagesFiles { get; set; }
 
         public List<Extra> Extras { get; set; }
 

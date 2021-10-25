@@ -61,7 +61,9 @@ namespace Web_ManagementHouseRentals.Controllers
         public ActionResult Index()
         {
             var properties = _propertyRepository.GetAll()
-                .Include(x => x.Owner)
+                .Include(p => p.SizeType)
+                .Include(p => p.Type)
+                .Include(p => p.EnergyCertificate)
                 .OrderBy(o => o.MonthlyPrice);
 
             return View(properties);
@@ -72,11 +74,10 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> IndexCustomers()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-
+            
             var properties = await _propertyRepository.GetPropertiesOfCustomerAsync(user.Id);
 
             return View(properties);
-
         }
 
         // GET: PropertiesController/Details/5

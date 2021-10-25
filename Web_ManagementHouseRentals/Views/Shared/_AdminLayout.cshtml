@@ -93,9 +93,9 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Properties Utilities:</h6>
-                        <a class="collapse-item" asp-area="" asp-controller="Properties" asp-action="Index">Properties list</a>
+                        <a class="collapse-item" asp-area="" asp-controller="Admin" asp-action="IndexProperties">Properties list</a>
                         <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Pending properties</a>  @*Properties that Admin has to checked before publish*@
-                        @*<a class="collapse-item" href="utilities-animation.html">Overview</a>*@
+                        <a class="collapse-item" asp-area="" asp-controller="PropertyTypes" asp-action="Index">Type of Properties</a>
                     </div>
                 </div>
             </li>
@@ -150,6 +150,7 @@
                         <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexCustomers">Customers list</a>
                         <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexLandlords">Landlords</a>
                         <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexTenants">Tenants</a>
+                        <a class="collapse-item" asp-area="" asp-controller="admin" asp-action="IndexCustomers">Special Customers</a> @*TODO: Change*@
                     </div>
                 </div>
             </li>

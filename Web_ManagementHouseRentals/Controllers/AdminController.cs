@@ -291,6 +291,66 @@ namespace Web_ManagementHouseRentals.Controllers
             return View(properties);
         }
 
+        //GET: Admin/DetailsProperty/5
+        public async Task<IActionResult> DetailsProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            return View(property);
+        }
+
+        // GET: Admin/DeleteProperty/5
+        public async Task<ActionResult> DeleteProperty(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+            if (property == null)
+            {
+                return new NotFoundViewResult("ProductNotFound");
+            }
+
+            return View(property);
+        }
+
+        // POST: PropertiesController/Delete/5
+        [HttpPost, ActionName("DeleteProperty")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeletePropertyConfirmed(int id)
+        {
+            var property = await _propertyRepository.GetByIdAsync(id);
+
+            try
+            {
+                await _propertyRepository.DeleteAsync(property);
+                return RedirectToAction(nameof(IndexProperties));
+            }
+            catch (DbUpdateException ex)
+            {
+
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"The property might be in used";
+                    ViewBag.ErrorMessage = $"Can´t be deleted because it has other information associated!</br>" +
+                                        "Try to delete first that information and then come back to delete the property!";
+                }
+                return View("Error");
+            }
+        }
+
         /////////////////////////////////////////////////////////////////////////////
         ///                                                                 /////////
         ///             MANAGEMENT Contracts                                /////////

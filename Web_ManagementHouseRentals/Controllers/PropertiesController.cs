@@ -244,7 +244,13 @@ namespace Web_ManagementHouseRentals.Controllers
             }
             catch(DbUpdateException ex)
             {
-                return View();
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"The property might be in used";
+                    ViewBag.ErrorMessage = $"Can´t be deleted because it has other information associated!</br>" +
+                                        "Try to delete first that information and then come back to delete the property!";
+                }
+                return View("Error");
             }
         }
 

@@ -23,6 +23,8 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IPropertyTypeRepository _propertyTypeRepository;
         private readonly ISizeTypeRepository _sizeTypeRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -32,7 +34,9 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IEnergyCertificateRepository energyCertificateRepository,
                                     IPropertyTypeRepository propertyTypeRepository,
                                     ISizeTypeRepository sizeTypeRepository,
-                                    IConverterHelper converterHelper)
+                                    IConverterHelper converterHelper,
+                                    IImageHelper imageHelper,
+                                    IProperty_PhotoRepository property_PhotoRepository)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -41,6 +45,8 @@ namespace Web_ManagementHouseRentals.Controllers
             _propertyTypeRepository = propertyTypeRepository;
             _sizeTypeRepository = sizeTypeRepository;
             _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
+            _property_PhotoRepository = property_PhotoRepository;
             _userHelper = userHelper;
         }
 
@@ -62,7 +68,7 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> IndexCustomers()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
-
+            
             var properties = await _propertyRepository.GetPropertiesOfCustomerAsync(user.Id);
 
             return View(properties);
@@ -101,6 +107,7 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 List<Extra> Extras = new();
 
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -120,6 +127,23 @@ namespace Web_ManagementHouseRentals.Controllers
 
                 var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType, user);
                 await _propertyRepository.CreateAsync(property);
+
+                var path = string.Empty;
+
+                if (model.ImagesFiles != null && model.ImagesFiles.Count > 0)
+                {
+                    foreach (var imageFile in model.ImagesFiles)
+                    {
+                        path = await _imageHelper.UploadImageAsync(imageFile, "property");
+
+                        var propertyPhoto = new Property_Photo
+                        {
+                            Property = property,
+                            ImageUrl = path,
+                        };
+                        await _property_PhotoRepository.CreateAsync(propertyPhoto);
+                    }
+                }
             }
 
             return RedirectToAction(nameof(IndexCustomers));

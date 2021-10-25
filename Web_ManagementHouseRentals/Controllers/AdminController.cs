@@ -75,7 +75,6 @@ namespace Web_ManagementHouseRentals.Controllers
             return View(landlords);
         }
 
-
         //// GET: AdminController/IndexTenants
         public async Task<IActionResult> IndexTenants()
         {
@@ -84,6 +83,17 @@ namespace Web_ManagementHouseRentals.Controllers
             var tenants = customers.Where(x => x.IsLandlord==false);
 
             return View(tenants);
+        }
+
+        //// GET: AdminController/IndexMultiple (Landord+Tenant)
+        public async Task<IActionResult> IndexMultiple()
+        {
+            var customers = await _userHelper.GetUsersWithThisRole("Customer");
+            //If the customer isLandlord and if the customer has a contract:
+            var customerMultiple = customers.Where(x => x.IsLandlord == true);
+            //TODO:apply filter Where() when we have done the management of the contracts
+
+            return View(customerMultiple);
         }
 
         // GET: AdminController/IndexWorkers

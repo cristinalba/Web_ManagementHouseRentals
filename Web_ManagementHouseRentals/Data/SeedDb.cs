@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Common.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -192,6 +193,22 @@ namespace Web_ManagementHouseRentals.Data
                 addExtra("Backyard");
                 await _context.SaveChangesAsync();
             }
+
+            if (!_context.ProposalStates.Any())
+            {
+                addProposalState("Pending");
+                addProposalState("Rejected");
+                addProposalState("Accepted");
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private void addProposalState(string state)
+        {
+            _context.ProposalStates.Add(new ProposalState
+            {
+                State = state,
+            });
         }
 
         private void addExtra(string extra)

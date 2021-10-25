@@ -25,6 +25,8 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
+        private readonly IProposalRepository _proposalRepository;
+        private readonly IProposalHelper _proposalHelper;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -36,7 +38,9 @@ namespace Web_ManagementHouseRentals.Controllers
                                     ISizeTypeRepository sizeTypeRepository,
                                     IConverterHelper converterHelper,
                                     IImageHelper imageHelper,
-                                    IProperty_PhotoRepository property_PhotoRepository)
+                                    IProperty_PhotoRepository property_PhotoRepository,
+                                    IProposalRepository proposalRepository,
+                                    IProposalHelper proposalHelper)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -47,6 +51,8 @@ namespace Web_ManagementHouseRentals.Controllers
             _converterHelper = converterHelper;
             _imageHelper = imageHelper;
             _property_PhotoRepository = property_PhotoRepository;
+            _proposalRepository = proposalRepository;
+            _proposalHelper = proposalHelper;
             _userHelper = userHelper;
         }
 
@@ -75,7 +81,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
         // GET: PropertiesController/Details/5
         public async Task<ActionResult> Details(int? id)
-            {
+        {
             var property = await _propertyRepository.GetByIdWithInfoAsync(id.Value);
             if (property == null)
             {
@@ -240,6 +246,47 @@ namespace Web_ManagementHouseRentals.Controllers
                 return View();
             }
         }
+
+
+        ////CREATE PROPOSAL
+        //[HttpPost]
+        //public async Task<IActionResult> Details(PropertyDetailsViewModel model)
+        //{
+        //    var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+        //    var proposalState =  _proposalRepository.GetProposalStates(1);
+        //    var property = await _propertyRepository.GetByIdWithInfoAsync(model.Id);
+
+        //    var newModel = new PropertyDetailsViewModel
+        //    {
+        //        Id = property.Id,
+        //        Type = property.Type,
+        //        Owner = property.Owner,
+        //        NameProperty = property.NameProperty,
+        //        Description = property.Description,
+        //        SizeType = property.SizeType,
+        //        Address = property.Address,
+        //        ZipCode = property.ZipCode,
+        //        Extra = property.Extra,
+        //        Area = property.Area,
+        //        Latitude = property.Latitude,
+        //        Longitude = property.Longitude,
+        //        EnergyCertificate = property.EnergyCertificate,
+        //        AvailableProperty = property.AvailableProperty,
+        //        MonthlyPrice = property.MonthlyPrice,
+        //        PropertyPhotos = property.PropertyPhotos,
+        //        Property = property,
+        //    };
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var proposal = _proposalHelper.CreateProposalAsync(newModel, user, proposalState);
+        //        await _proposalRepository.CreateAsync(proposal);
+        //        ViewBag.Message = "Message sent successfully!";
+        //        return View(newModel);
+        //    }
+
+        //    return View(newModel);
+        //}
 
         public IActionResult PropertyNotFound()
         {

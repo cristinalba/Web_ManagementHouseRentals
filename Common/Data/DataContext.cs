@@ -29,6 +29,8 @@ namespace Web_ManagementHouseRentals.Data
 
         public DbSet<Property_Photo> Property_Photos { get; set; }
 
+        public DbSet<ProposalState> ProposalStates { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 

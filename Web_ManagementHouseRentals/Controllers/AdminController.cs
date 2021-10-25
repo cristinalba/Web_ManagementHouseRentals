@@ -71,7 +71,6 @@ namespace Web_ManagementHouseRentals.Controllers
             return View(landlords);
         }
 
-
         //// GET: AdminController/IndexTenants
         public async Task<IActionResult> IndexTenants()
         {
@@ -277,7 +276,8 @@ namespace Web_ManagementHouseRentals.Controllers
         ///             MANAGEMENT Properties                               /////////
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
-        
+
+
 
 
 
@@ -286,7 +286,7 @@ namespace Web_ManagementHouseRentals.Controllers
         ///             MANAGEMENT Contracts                                /////////
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
-        
+
 
 
         /////////////////////////////////////////////////////////////////////////////

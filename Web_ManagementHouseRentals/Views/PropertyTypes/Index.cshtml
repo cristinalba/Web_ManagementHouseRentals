@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Web_ManagementHouseRentals.Data.Entities.PropertyType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<a class="btn btn-success btn-icon-split btn-sm" asp-action="Create">
+    <span class="icon text-white-50">
+        <i class="fas fa-info-circle"></i>
+    </span>
+    <span class="text">Create New</span>
+</a>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+          
+                    <a class="btn btn-danger btn-icon-split btn-sm" asp-action="Delete" asp-route-id="@item.Id">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Delete</span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

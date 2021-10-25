@@ -18,11 +18,17 @@ namespace Common.Data.Repositories.Classes
             _dataContext = dataContext;    
         }
 
+        public async Task<List<PropertyType>> GetAllTypes()
+        {
+            return await _dataContext.PropertyTypes.ToListAsync();
+        }
 
         public async Task<PropertyType> GetPropertyTypeByIdAsync(int id)
         {
             return await _dataContext.PropertyTypes.Where(pt => pt.Id == id).FirstOrDefaultAsync();
         }
+
+    
 
 
     }

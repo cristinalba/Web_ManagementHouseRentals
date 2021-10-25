@@ -44,6 +44,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
         public IActionResult Login()
         {
+            
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
@@ -58,15 +59,22 @@ namespace Web_ManagementHouseRentals.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _userHelper.LoginAsync(model);
+
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+
                 if (result.Succeeded)
                 {
                     if (this.Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         return Redirect(this.Request.Query["ReturnUrl"].First());
                     }
-
+                    if (await _userHelper.IsUserInRoleAsync(user, "Admin")) //If Admin logs in, it goes to the dashboard!
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                     return this.RedirectToAction("Index", "Home");
                 }
+
             }
 
             this.ModelState.AddModelError(string.Empty, "Failed to login");

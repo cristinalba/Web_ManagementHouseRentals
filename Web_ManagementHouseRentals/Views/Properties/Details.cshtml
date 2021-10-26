@@ -167,8 +167,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4">
                         <img src="/images/rental4u.jpg" alt="" class="img-fluid">
+                <div class="col-md-8 col-lg-6">
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="property-agent">
@@ -182,10 +183,13 @@
                                     <strong>Email:</strong>
                                     <span class="color-text-a">@Html.DisplayFor(model => model.Owner.Email)</span>
                                 </li>
+                                <li>
+                                    <a asp-action="SendProposal" class="btn btn-a" asp-route-id="@Model.Id">Get in touch</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    @if (this.User.Identity.IsAuthenticated)
+                                      @if (this.User.Identity.IsAuthenticated)
                     {
                         <div class="col-md-12 col-lg-4">
                             <div class="property-contact">

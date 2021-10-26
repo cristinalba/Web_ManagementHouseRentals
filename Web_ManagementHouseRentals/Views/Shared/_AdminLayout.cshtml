@@ -93,8 +93,8 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Properties Utilities:</h6>
-                        <a class="collapse-item" asp-area="" asp-controller="Admin" asp-action="IndexProperties">Properties list</a>
-                        <a class="collapse-item" asp-area="" asp-controller="" asp-action="">Pending properties</a>  @*Properties that Admin has to checked before publish*@
+                        <a class="collapse-item" asp-area="" asp-controller="Admin" asp-action="IndexProperties">New Properties</a>
+                        <a class="collapse-item" asp-area="" asp-controller="Admin" asp-action="IndexAvailableProperties">Properties List</a>  @*Properties that Admin has to checked before publish*@
                         <a class="collapse-item" asp-area="" asp-controller="PropertyTypes" asp-action="Index">Type of Properties</a>
                     </div>
                 </div>
@@ -377,10 +377,10 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>*@
-                                <a class="dropdown-item" href="#">
+                                @*<a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a>*@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item"  asp-controller="Account" asp-action="Logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

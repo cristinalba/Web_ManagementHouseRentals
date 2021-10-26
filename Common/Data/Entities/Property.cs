@@ -55,8 +55,12 @@ namespace Web_ManagementHouseRentals.Data
         public EnergyCertificate EnergyCertificate { get; set; } //QS
 
         [Required]
-        [Display(Name = "Status")]
+        [Display(Name = "Is property available?")]
         public bool AvailableProperty { get; set; } //Status
+
+        [Display(Name = "Is property deleted?")]
+        public bool IsPropertyDeleted { get; set; } 
+        //To deactivate the property, as it is not allow to delete in cascade 
 
         [Required]
         [Display(Name = "Monthly Price")]

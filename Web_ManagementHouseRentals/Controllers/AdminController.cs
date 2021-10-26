@@ -46,9 +46,21 @@ namespace Web_ManagementHouseRentals.Controllers
         }
 
         // GET: AdminController
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var customers = await _userHelper.GetUsersWithThisRole("Customer");
+            var landlords = customers.Where(x => x.IsLandlord == true);
+            var tenants = customers.Where(x => x.IsLandlord == false);
+            var workers = await _userHelper.GetUsersWithThisRole("Worker");         
+
+            var model = new AdminViewModel 
+            { 
+              TotalLandlords=  landlords.Count(),
+              TotalTenants = tenants.Count(),
+              TotalWorkers = workers.Count(),
+              TotalProperties = _propertyRepository.GetAll().Count()
+            };
+            return View(model);
         }
         /////////////////////////////////////////////////////////////////////////////
         ///                                                                 /////////
@@ -268,11 +280,11 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
                 {
-                    ViewBag.ErrorTitle = $"{user.FullName} might be used";
+                    ViewBag.ErrorTitle =   $"{user.FullName} might be used";
                     ViewBag.ErrorMessage = $"{user.FullName} can´t be deleted because it has other information associated!</br>" +
-                                        "Try to delete first that information and then come back to delete the user!";
+                                            "Try to delete first that information and then come back to delete the user!";
                 }
-                return View("Error");
+                return View("ErrorAdmin");
             }
         }
         /////////////////////////////////////////////////////////////////////////////
@@ -281,29 +293,165 @@ namespace Web_ManagementHouseRentals.Controllers
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
 
-        // GET: PropertiesController
-        public ActionResult IndexProperties()
+        // GET: PropertiesController/IndexProperties
+        public ActionResult IndexProperties() //List of new properties
         {
             var properties = _propertyRepository.GetAll()
                 .Include(x => x.Owner)
-                .OrderBy(o => o.MonthlyPrice);
+                .OrderBy(o => o.MonthlyPrice)
+                .Where(y => y.IsPropertyDeleted == false && y.AvailableProperty == false);
 
             return View(properties);
         }
 
+        // GET: PropertiesController/IndexEnableProperties
+        public ActionResult IndexAvailableProperties() //List of properties available
+        {
+            var properties = _propertyRepository.GetAll()
+                .Include(x => x.Owner)
+                .OrderBy(o => o.MonthlyPrice)
+                .Where(y => y.IsPropertyDeleted==false && y.AvailableProperty==true);
+
+            return View(properties);
+        }
+
+        // GET: AdminController/Enable/5
+        public async Task<ActionResult> Enable(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            var model = new EditPropertyViewModel();
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+            if (property == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+            model.Id = property.Id;
+            model.NameProperty = property.NameProperty;
+            model.MonthlyPrice = property.MonthlyPrice;
+            
+            return View(model);
+        }
+
+        // POST: AdminController/Enable/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Enable(int id, EditPropertyViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            try
+            {
+                var property = await _propertyRepository.GetPropertyByIdAsync(model.Id);
+
+                if (property != null)
+                {
+                    property.NameProperty = model.NameProperty;
+                    property.MonthlyPrice = model.MonthlyPrice;
+                    property.AvailableProperty = true;
+                    await _propertyRepository.UpdateAsync(property);
+                }
+                else
+                {
+                    return new NotFoundViewResult("PropertyNotFound");
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _propertyRepository.ExistAsync(model.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(IndexProperties));
+        }
+
+        // GET: AdminController/Disable/5
+        public async Task<ActionResult> Disable(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            var model = new EditPropertyViewModel();
+            var property = await _propertyRepository.GetByIdAsync(id.Value);
+            if (property == null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+            model.Id = property.Id;
+            model.NameProperty = property.NameProperty;
+            model.MonthlyPrice = property.MonthlyPrice;
+
+            return View(model);
+        }
+
+        // POST:  AdminController/Disable/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Disable(int id, EditPropertyViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
+
+            try
+            {
+                var property = await _propertyRepository.GetPropertyByIdAsync(model.Id);
+
+                if (property != null)
+                {
+                    property.NameProperty = model.NameProperty;
+                    property.MonthlyPrice = model.MonthlyPrice;
+                    property.IsPropertyDeleted = true;
+                    await _propertyRepository.UpdateAsync(property);
+                }
+                else
+                {
+                    return new NotFoundViewResult("PropertyNotFound");
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _propertyRepository.ExistAsync(model.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(IndexAvailableProperties));
+        }
+
+
+        /////////////////////////////////////////////////// <returns></returns>
         //GET: Admin/DetailsProperty/5
         public async Task<IActionResult> DetailsProperty(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             var property = await _propertyRepository.GetByIdAsync(id.Value);
 
             if (property == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             return View(property);
@@ -343,12 +491,16 @@ namespace Web_ManagementHouseRentals.Controllers
 
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
                 {
-                    ViewBag.ErrorTitle = $"The property might be in used";
-                    ViewBag.ErrorMessage = $"Can´t be deleted because it has other information associated!</br>" +
-                                        "Try to delete first that information and then come back to delete the property!";
+                    ViewBag.ErrorTitle =   "The property might be in used";
+                    ViewBag.ErrorMessage = "It is not possible to deleted because it has other information associated!</br>" +
+                                            "Try to delete first that information and then come back to delete the property!";
                 }
-                return View("Error");
+                return View("ErrorAdmin");
             }
+        }
+        public IActionResult PropertyNotFound()
+        {
+            return View();
         }
 
         /////////////////////////////////////////////////////////////////////////////
@@ -356,5 +508,8 @@ namespace Web_ManagementHouseRentals.Controllers
         ///             MANAGEMENT Contracts                                /////////
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
+        ///
+
+
     }
 }

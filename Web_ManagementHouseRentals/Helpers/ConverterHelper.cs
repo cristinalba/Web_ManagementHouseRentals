@@ -1,4 +1,5 @@
 ﻿
+using Common.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,32 @@ namespace Web_ManagementHouseRentals.Helpers
                 Long = temporaryZipCode[0].Longitude
             };
 
+        }
+
+        public Proposal ToProposalAsync(CreateProposalViewModel model, User client, User owner, Property property, ProposalState proposalState)
+        {
+            return new Proposal
+            {
+                property = property,
+                proposalState = proposalState,
+                Message = model.Message,
+                ProposalDate = DateTime.Now,
+                Owner = owner,
+                Client = client
+            };
+        }
+
+        public Proposal ToResponseProposalAsync(EditProposalViewModel model, User client, User owner, Property property, ProposalState proposalState)
+        {
+            return new Proposal
+            {
+                property = property,
+                proposalState = proposalState,
+                Message = model.ResponseMessage,
+                ProposalDate = DateTime.Now,
+                Owner = client,
+                Client = owner
+            };
         }
 
         //TODO: Deixamos o cliente editar todos os campos?

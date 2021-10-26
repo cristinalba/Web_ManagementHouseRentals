@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_ManagementHouseRentals.Data;
 
 namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211026135342_IsPropertyDeleted")]
+    partial class IsPropertyDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -441,6 +443,27 @@ namespace Common.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Web_ManagementHouseRentals.Data.Entities.ZipCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("District")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ZipCodes");
+                });
+
             modelBuilder.Entity("Web_ManagementHouseRentals.Data.Property", b =>
                 {
                     b.Property<int>("Id")
@@ -463,14 +486,14 @@ namespace Common.Migrations
 
                     b.Property<int>("EnergyCertificateId")
                         .HasColumnType("int");
-                        
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
-                    
+
                     b.Property<bool>("IsPropertyDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<double>("Long")
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<double>("MonthlyPrice")
@@ -489,8 +512,8 @@ namespace Common.Migrations
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ZipCodeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -501,6 +524,8 @@ namespace Common.Migrations
                     b.HasIndex("SizeTypeId");
 
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("ZipCodeId");
 
                     b.ToTable("Properties");
                 });
@@ -646,6 +671,10 @@ namespace Common.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Web_ManagementHouseRentals.Data.Entities.ZipCode", "ZipCode")
+                        .WithMany()
+                        .HasForeignKey("ZipCodeId");
+
                     b.Navigation("EnergyCertificate");
 
                     b.Navigation("Owner");
@@ -653,6 +682,8 @@ namespace Common.Migrations
                     b.Navigation("SizeType");
 
                     b.Navigation("Type");
+
+                    b.Navigation("ZipCode");
                 });
 
             modelBuilder.Entity("Web_ManagementHouseRentals.Data.Entities.EnergyCertificate", b =>

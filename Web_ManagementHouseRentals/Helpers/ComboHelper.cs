@@ -51,6 +51,17 @@ namespace Web_ManagementHouseRentals.Helpers
             return list;
         }
 
+        public ICollection<SelectListItem> GetComboProposalStates()
+        {
+            var list = _context.ProposalStates.Select(ps => new SelectListItem
+            {
+                Text = ps.State,
+                Value = ps.Id.ToString()
+            }).ToList();
+
+            return list;
+        }
+
         public ICollection<SelectListItem> GetComboSizeTypes()
         {
             var list = _context.SizeTypes.Select(st => new SelectListItem

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace Common.Data.Entities
 
         public Property property { get; set; }
 
+        [Display(Name = "State")]
         public ProposalState proposalState { get; set; }
 
         public string Message { get; set; }
 
+        [Display(Name = "Date")]
         public DateTime ProposalDate { get; set; }
 
         public User Owner { get; set; }

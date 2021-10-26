@@ -1,0 +1,46 @@
+﻿@model Web_ManagementHouseRentals.Models.EditPropertyViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row-cols-lg-2 d-flex justify-content-center">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Enable Property</h4>
+        </div>
+        <div class="card-body">
+            <h4>Are you sure you want to enable this property?</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-10">
+                    @Html.DisplayNameFor(model => model.Id)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt class="col-sm-10">
+                    @Html.DisplayNameFor(model => model.NameProperty)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.NameProperty)
+                </dd>
+                <dt class="col-sm-10">
+                    @Html.DisplayNameFor(model => model.MonthlyPrice)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.MonthlyPrice)
+                </dd>
+            </dl>
+            <hr />
+            <form asp-action="Enable">
+                <input type="hidden" asp-for="NameProperty" />
+                <input type="hidden" asp-for="MonthlyPrice" />
+                <input type="submit" value="Enable" class="btn btn-warning" />
+                <a class="btn btn-info" asp-controller="Admin" asp-action="IndexProperties">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>
+

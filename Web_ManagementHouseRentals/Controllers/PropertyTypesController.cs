@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
         // GET: PropertyTypesController/Create
         public IActionResult Create()
-        {
-            
+        {          
             return View();
         }
 
@@ -44,7 +44,7 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if(type == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             await _propertyType.CreateAsync(type);
@@ -58,14 +58,14 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             var type = await _propertyType.GetByIdAsync(id.Value);
 
             if (type == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PropertyNotFound");
             }
 
             return View(type);           
@@ -77,15 +77,29 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var type = await _propertyType.GetByIdAsync(id);
+            if(type ==null)
+            {
+                return new NotFoundViewResult("PropertyNotFound");
+            }
             try
             {
                 await _propertyType.DeleteAsync(type);
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception e)
+            catch(DbUpdateException ex)
             {
-                return View(e);
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle =   $"This type of property might be in used";
+                    ViewBag.ErrorMessage = $"Can´t be deleted because it has other information associated!</br>" +
+                                            "Try to delete first that information and then come back to delete the type of property!";
+                }
+                return View("ErrorAdmin");
             }
+        }
+        public IActionResult PropertyNotFound()
+        {
+            return View();
         }
         // GET: PropertyTypesController/Details/5
         //public async Task<IActionResult> Details(int? id)

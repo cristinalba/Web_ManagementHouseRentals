@@ -36,7 +36,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.MonthlyPrice)
                         </th>
-                        <th>Activation</th>
+                        <th>Deactivation</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -66,11 +66,11 @@
                             @Html.DisplayFor(modelItem => item.MonthlyPrice)
                         </td>
                         <td>
-                            <a class="btn btn-warning btn-icon-split btn-sm" asp-action="Enable" asp-route-id="@item.Id">
+                            <a class="btn btn-warning btn-icon-split btn-sm" asp-action="Disable" asp-route-id="@item.Id">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-exclamation-triangle"></i>
                                 </span>
-                                <span class="text">Enable</span>
+                                <span class="text">Disable</span>
                             </a>
                         </td>
                         <td>

@@ -244,9 +244,9 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
                 {
-                    ViewBag.ErrorTitle = $"The property might be in used";
-                    ViewBag.ErrorMessage = $"Can´t be deleted because it has other information associated!</br>" +
-                                        "Try to delete first that information and then come back to delete the property!";
+                    ViewBag.ErrorTitle =   "The property might be in used</br>";
+                    ViewBag.ErrorMessage = "It is not possible to deleted because it has other information associated!</br></br>" +
+                                           "Try to delete first that information and then come back to delete the property!";
                 }
                 return View("Error");
             }

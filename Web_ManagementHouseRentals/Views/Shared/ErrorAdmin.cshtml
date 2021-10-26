@@ -1,0 +1,30 @@
+﻿@model ErrorViewModel
+
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@if (ViewBag.ErrorTitle == null)
+{
+    <br /><br />
+    <center> 
+        <h1 class="text-danger">Error.</h1>
+    </center>
+    <br />
+    <center>
+        <h2 class="text-danger">An error occurred while processing your request.</h2>
+    </center>
+}
+else
+{
+    <br /><br />
+    <center>
+        <h1 class="text-danger">@ViewBag.ErrorTitle</h1>
+    </center>
+    <br />
+    <center>
+        <h2 class="text-danger">@Html.Raw(ViewBag.ErrorMessage)</h2>
+    </center>
+}

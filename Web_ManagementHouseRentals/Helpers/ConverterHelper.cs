@@ -51,7 +51,7 @@ namespace Web_ManagementHouseRentals.Helpers
         }
 
         //PROPERTY
-        public Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner)
+        public Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner, List<ZipCodeHelper> temporaryZipCode)
         {
             owner.IsLandlord = true;
             return new Property
@@ -66,7 +66,10 @@ namespace Web_ManagementHouseRentals.Helpers
                 EnergyCertificate = energyCertificate,
                 Extra = Extras,
                 SizeType = sizeType,
-                Owner = owner
+                Owner = owner,
+                ZipCode = temporaryZipCode[0].CodigoPostal,
+                Lat = temporaryZipCode[0].Latitude,
+                Long = temporaryZipCode[0].Longitude
             };
 
         }

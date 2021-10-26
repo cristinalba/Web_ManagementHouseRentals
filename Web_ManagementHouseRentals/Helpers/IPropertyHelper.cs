@@ -9,8 +9,7 @@ namespace Web_ManagementHouseRentals.Helpers
 {
     public interface IPropertyHelper : IGenericRepository<Extra>, 
         IGenericRepository<PropertyType>, 
-        IGenericRepository<SizeType>, 
-        IGenericRepository<ZipCode>
+        IGenericRepository<SizeType>
     {
 
     }

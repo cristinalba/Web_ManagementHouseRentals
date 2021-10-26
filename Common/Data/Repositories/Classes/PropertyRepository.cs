@@ -23,7 +23,6 @@ namespace Common.Data.Repositories
                                           .Include(p => p.Type)
                                           .Include(p => p.Owner)
                                           .Include(p => p.SizeType)
-                                          .Include(p => p.ZipCode)
                                           .Include(p => p.Extra)
                                           .Include(p => p.EnergyCertificate)
                                           .Include(p => p.PropertyPhotos)

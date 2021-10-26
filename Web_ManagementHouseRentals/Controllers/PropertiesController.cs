@@ -27,6 +27,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IProposalRepository _proposalRepository;
         private readonly IProposalHelper _proposalHelper;
+        private readonly IApiService _apiService;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -40,7 +41,8 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IImageHelper imageHelper,
                                     IProperty_PhotoRepository property_PhotoRepository,
                                     IProposalRepository proposalRepository,
-                                    IProposalHelper proposalHelper)
+                                    IProposalHelper proposalHelper,
+                                    IApiService apiService)
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -53,6 +55,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _property_PhotoRepository = property_PhotoRepository;
             _proposalRepository = proposalRepository;
             _proposalHelper = proposalHelper;
+            _apiService = apiService;
             _userHelper = userHelper;
         }
 
@@ -60,7 +63,7 @@ namespace Web_ManagementHouseRentals.Controllers
         // GET: PropertiesController
         public async Task<ActionResult> Index(int page = 1)
         {
-            ShowPropertiesIndexViewModel propertiesView = new ShowPropertiesIndexViewModel();
+            ShowPropertiesIndexViewModel propertiesView = new();
 
             propertiesView.PropertiesPerPage = 6;
             propertiesView.Properties = await _propertyRepository.GetPropertiesToIndexAsync();
@@ -84,6 +87,7 @@ namespace Web_ManagementHouseRentals.Controllers
         public async Task<ActionResult> Details(int? id)
         {
             var property = await _propertyRepository.GetByIdWithInfoAsync(id.Value);
+
             if (property == null)
             {
                 return new NotFoundViewResult("PropertyNotFound");
@@ -113,8 +117,8 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 List<Extra> Extras = new();
+                List<ZipCodeHelper> temporaryZipCode;
 
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 var energyCertificate = await _energyCertificateRepository.GetEnergyCertificateByIdAsync(model.EnergyCertificateId);
@@ -131,7 +135,12 @@ namespace Web_ManagementHouseRentals.Controllers
                     }
                 }
 
-                var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType, user);
+                var response = await _apiService.GetZipCodeInfo("https://api.duminio.com", "/ptcp/v2/ptapi617149fb8434c0.60647858/", model.ZipCode);
+                var ZipCodeResult = response.Results;
+
+                temporaryZipCode = (List<ZipCodeHelper>)response.Results;
+
+                var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType, user, temporaryZipCode);
                 await _propertyRepository.CreateAsync(property);
 
                 var path = string.Empty;

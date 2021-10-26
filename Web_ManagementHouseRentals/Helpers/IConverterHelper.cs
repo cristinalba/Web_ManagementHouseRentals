@@ -14,6 +14,6 @@ namespace Web_ManagementHouseRentals.Helpers
 
         ChangeUserViewModel ToChangeUserViewModel(User user);
 
-        Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner);
+        Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner, List<ZipCodeHelper> temporaryZipCode);
     }
 }

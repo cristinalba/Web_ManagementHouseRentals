@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Property not found";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="intro-single">
+    <div class="container">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    <p><i class="fa fa-exclamation-triangle fa-5x"></i><br />Type of Property not found</p>
+                </div>
+                <div class="col-md-10">
+                    <h3>OPPSSS!!!! Sorry...</h3>
+                    <p>Sorry, the type of property you're looking for was not found.<br />Please go back to the previous page to continue browsing.</p>
+                    <a class="btn btn-danger" asp-area="" asp-controller="PropertyTypes" asp-action="Index">Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

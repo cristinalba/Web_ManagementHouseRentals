@@ -25,6 +25,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly UserManager<User> _userManager;
         private readonly IPropertyRepository _propertyRepository;
+        private readonly IProposalRepository _proposalRepository;
         private Random _random;
 
         public AdminController(IUserHelper userHelper,
@@ -33,7 +34,8 @@ namespace Web_ManagementHouseRentals.Controllers
                                 IConfiguration configuration,
                                 IMailHelper mailHelper,
                                 UserManager<User> userManager,
-                                IPropertyRepository propertyRepository)
+                                IPropertyRepository propertyRepository,
+                                IProposalRepository proposalRepository)
         {
             _userHelper = userHelper;
             _imageHelper = imageHelper;
@@ -42,6 +44,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _mailHelper = mailHelper;
             _userManager = userManager;
             _propertyRepository = propertyRepository;
+            _proposalRepository = proposalRepository;
             _random = new Random();
         }
 
@@ -505,11 +508,23 @@ namespace Web_ManagementHouseRentals.Controllers
 
         /////////////////////////////////////////////////////////////////////////////
         ///                                                                 /////////
-        ///             MANAGEMENT Contracts                                /////////
+        ///             MANAGEMENT Proposals                                /////////
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
         ///
 
+        public IActionResult IndexPendingProposals()
+        {
+            var proposals = _proposalRepository.GetAcceptedProposalsAsync("Wating for Admin approval");
 
+            return View(proposals);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+        ///                                                                 /////////
+        ///             MANAGEMENT Contracts                                /////////
+        ///                                                                 /////////
+        /////////////////////////////////////////////////////////////////////////////
+        ///
     }
 }

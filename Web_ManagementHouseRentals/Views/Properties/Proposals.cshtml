@@ -52,15 +52,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProposalDate)
                 </td>
-                @if (item.proposalState.Id == 3)
+                @if (item.proposalState.Id == 4)
                 {
                     <td class="text-warning">
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }
-                else if (item.proposalState.Id == 2)
+                else if (item.proposalState.Id == 3)
                 {
                     <td class="text-danger">
+                        @Html.DisplayFor(modelItem => item.proposalState.State)
+                    </td>
+                }
+                else if (item.proposalState.Id == 2)
+                {
+                    <td class="text-info">
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }
@@ -70,15 +76,16 @@
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }
-            <td>
-                <a class="btn btn-warning btn-icon-split btn-sm" asp-action="ProposalDetails" asp-route-id="@item.Id">
-                    <span class="text">See proposal</span>
-                </a>
-                <a class="btn btn-danger btn-icon-split btn-sm" asp-action="DeleteProposal" asp-route-id="@item.Id">
-                    Delete <i class="fa fa-trash"></i>
-                </a>
 
-            </td>
+                <td>
+                    <a class="btn btn-warning btn-icon-split btn-sm" asp-action="ProposalDetails" asp-route-id="@item.Id">
+                        <span class="text">See proposal</span>
+                    </a>
+                    <a class="btn btn-danger btn-icon-split btn-sm" asp-action="DeleteProposal" asp-route-id="@item.Id">
+                        Delete <i class="fa fa-trash"></i>
+                    </a>
+
+                </td>
             </tr>
             }
         </tbody>

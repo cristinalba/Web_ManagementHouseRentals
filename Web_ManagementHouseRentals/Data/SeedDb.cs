@@ -198,6 +198,7 @@ namespace Web_ManagementHouseRentals.Data
             {
                 addProposalState("Pending");
                 addProposalState("Rejected");
+                addProposalState("Wating for Admin approval");
                 addProposalState("Accepted");
                 await _context.SaveChangesAsync();
             }

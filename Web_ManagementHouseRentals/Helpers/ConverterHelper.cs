@@ -85,6 +85,19 @@ namespace Web_ManagementHouseRentals.Helpers
             };
         }
 
+        public Proposal ToResponseProposalAsync(EditProposalViewModel model, User client, User owner, Property property, ProposalState proposalState)
+        {
+            return new Proposal
+            {
+                property = property,
+                proposalState = proposalState,
+                Message = model.ResponseMessage,
+                ProposalDate = DateTime.Now,
+                Owner = client,
+                Client = owner
+            };
+        }
+
         //TODO: Deixamos o cliente editar todos os campos?
         //public CreatePropertyViewModel ToPropertyViewModel(Property property)
         //{

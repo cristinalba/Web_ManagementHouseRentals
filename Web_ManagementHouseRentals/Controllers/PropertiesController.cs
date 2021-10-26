@@ -1,4 +1,5 @@
-﻿using Common.Data.Repositories;
+﻿using Common.Data.Entities;
+using Common.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -270,7 +271,7 @@ namespace Web_ManagementHouseRentals.Controllers
             var client = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
             var owner = await _userHelper.GetUserByEmailAsync(property.Owner.Email);
-            var proposalState =  _proposalRepository.GetProposalStates(1);
+            var proposalState =  _proposalRepository.GetProposalStates(3);
 
             if (ModelState.IsValid)
             {
@@ -285,6 +286,109 @@ namespace Web_ManagementHouseRentals.Controllers
 
             return View(model);
         }
+
+        public IActionResult Proposals()
+        {
+            var proposals = _proposalRepository.GetProposalsFromUser(this.User.Identity.Name).OrderByDescending(p => p.ProposalDate);
+
+            return View(proposals);
+        }
+
+        public async Task<IActionResult> ProposalDetails(int? id)
+        {
+            var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+            if (proposal == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditProposalViewModel
+            {
+                Id = proposal.Id,
+                OwnerId = proposal.Owner.Id,
+                ClientId = proposal.Client.Id,
+                ClientName = proposal.Client.FullName,
+                PropertyId = proposal.property.Id,
+                ProposalStateId = proposal.proposalState.Id,
+                ProposalStates = _comboHelper.GetComboProposalStates(),
+                Message = proposal.Message,
+                ProposalDate = proposal.ProposalDate,
+                propertyOwner = proposal.property.Owner.Email,
+                loggedUser = this.User.Identity.Name
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProposalDetails(EditProposalViewModel model)
+        {
+            var client = await _userHelper.GetUserByIdAsync(model.ClientId);
+            var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
+            var owner = await _userHelper.GetUserByIdAsync(model.OwnerId);
+            var proposalState = _proposalRepository.GetProposalStates(model.ProposalStateId);
+
+
+            if (ModelState.IsValid)
+            {
+                 var proposalResponse = _converterHelper.ToResponseProposalAsync(model, client, owner, property, proposalState);
+
+                await _proposalRepository.CreateAsync(proposalResponse);
+                ViewBag.Message = "Message sent successfully!";
+                return View(model);
+            }
+
+            return View(model);
+
+        }
+
+        public async Task<IActionResult> ProposalAccepted(int? id)
+        {
+            var adminList = await _userHelper.GetUsersWithThisRole("Admin");
+            var admin = adminList.FirstOrDefault();
+            var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+
+            proposal.proposalState = _proposalRepository.GetProposalStates(1);
+
+            await _proposalRepository.UpdateAsync(proposal);
+
+            return RedirectToAction("Proposals");
+
+        }
+
+        public async Task<IActionResult> ProposalRejected(int? id)
+        {
+            var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+
+            proposal.proposalState = _proposalRepository.GetProposalStates(2);
+
+            await _proposalRepository.UpdateAsync(proposal);
+
+            return RedirectToAction("Proposals");
+
+        }
+
+        public async Task<IActionResult> DeleteProposal(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("ProposalNotFound");
+            }
+
+            var proposal = await _proposalRepository.GetByIdAsync(id.Value);
+
+            try
+            {
+                await _proposalRepository.DeleteAsync(proposal);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return RedirectToAction("Proposals");
+        }
+
 
         public IActionResult PropertyNotFound()
         {

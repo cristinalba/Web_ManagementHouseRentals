@@ -1,0 +1,97 @@
+﻿@model Web_ManagementHouseRentals.Models.EditProposalViewModel
+@{
+    ViewData["Title"] = "ProposalDetails";
+}
+
+<h1>ProposalDetails</h1>
+
+<!--/ Intro Single star /-->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">Proposal</h1>
+                    <span class="color-text-a"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--/ Intro Single End /-->
+<div class="col-md-12">
+    <div class="row section-t3">
+        <div class="col-sm-12">
+            <h2 class="text-center mb-5">Proposal from @Model.ClientName</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-4">
+            <div class="property-contact">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                            <h5>@Html.DisplayNameFor(model => model.Message):</h5>
+                            <p class="text-wrap">@Html.DisplayFor(model => model.Message)</p>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.propertyOwner == Model.loggedUser)
+                {
+                    <div class=" container text-center">
+                        <a asp-action="ProposalAccepted" class="btn btn-success" asp-route-id="@Model.Id">Accept</a>
+                        <a asp-action="ProposalRejected" class="btn btn-danger" asp-route-id="@Model.Id">Decline</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ Property Single End /-->
+<!--/ Response proposal-->
+<div class="col-md-12 hide">
+    <div class="row section-t3">
+        <div class="col-sm-12">
+            <h2 class="text-center mb-5">Contact @Model.ClientName</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-4">
+            <div class="property-contact">
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        <center><h6>@ViewBag.Message</h6></center>
+                    </div>
+                }
+                <form class="form-a" method="post">
+                    <input type="hidden" asp-for="PropertyId" />
+                    <input type="hidden" asp-for="ClientName" />
+                    <input type="hidden" asp-for="OwnerId" />
+                    <input type="hidden" asp-for="ClientId" />
+                    <input type="hidden" asp-for="ClientName" />
+                    <input type="hidden" asp-for="PropertyId" />
+                    <input type="hidden" asp-for="ProposalStateId" />
+                    <input type="hidden" asp-for="Message" />
+                    <input type="hidden" asp-for="ProposalDate" />
+                    <input type="hidden" asp-for="propertyOwner" />
+                    <input type="hidden" asp-for="loggedUser" />
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group">
+                                <textarea asp-for="ResponseMessage" id="textMessage" class="form-control" placeholder="Comment *" name="ResponseMessage" cols="45" rows="8" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <input type="submit" value="Send Response" class="btn btn-a" />
+                        </div>
+                    </div>
+                </form>
+                <div class=" container text-center">
+                    <a asp-action="Proposals" >Back to proposal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

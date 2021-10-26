@@ -71,7 +71,6 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IComboHelper, ComboHelper>();
-            services.AddScoped<IProposalHelper, ProposalHelper>();
             services.AddScoped<IApiService, ApiService>();
 
             //Repositories

@@ -27,7 +27,6 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IProposalRepository _proposalRepository;
-        private readonly IProposalHelper _proposalHelper;
         private readonly IApiService _apiService;
         private readonly IUserHelper _userHelper;
 
@@ -42,9 +41,7 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IImageHelper imageHelper,
                                     IProperty_PhotoRepository property_PhotoRepository,
                                     IProposalRepository proposalRepository,
-                                    IProposalHelper proposalHelper,
-                                    IApiService apiService
-                                    IProposalRepository proposalRepository) 
+                                    IApiService apiService) 
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -56,7 +53,6 @@ namespace Web_ManagementHouseRentals.Controllers
             _imageHelper = imageHelper;
             _property_PhotoRepository = property_PhotoRepository;
             _proposalRepository = proposalRepository;
-            _proposalHelper = proposalHelper;
             _apiService = apiService;
             _userHelper = userHelper;  
         }

@@ -16,8 +16,6 @@ namespace Web_ManagementHouseRentals.Helpers
         ChangeUserViewModel ToChangeUserViewModel(User user);
 
         Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner, List<ZipCodeHelper> temporaryZipCode);
-      
-        Property ToProperty(CreatePropertyViewModel model, List<Extra> Extras, EnergyCertificate energyCertificate, PropertyType propertyType, SizeType sizeType, User owner);
 
         Proposal ToProposalAsync(CreateProposalViewModel model, User client, User owner, Property property, ProposalState proposalState);
       

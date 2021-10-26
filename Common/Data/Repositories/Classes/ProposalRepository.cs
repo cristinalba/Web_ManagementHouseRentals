@@ -42,5 +42,16 @@ namespace Common.Data.Repositories.Classes
         {
             return _dataContext.ProposalStates.Where(p => p.Id == id).FirstOrDefault();
         }
+
+        public IQueryable<Proposal> GetAcceptedProposalsAsync(string state)
+        {
+            return _dataContext.Proposals.Where(p => p.proposalState.State == state)
+                                                                  .Include(p => p.Client)
+                                                                  .Include(p => p.Owner)
+                                                                  .Include(p => p.property)
+                                                                  .Include(p => p.proposalState);
+        }
+
+
     }
 }

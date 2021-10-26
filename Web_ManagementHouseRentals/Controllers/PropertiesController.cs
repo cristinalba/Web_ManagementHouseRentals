@@ -271,7 +271,7 @@ namespace Web_ManagementHouseRentals.Controllers
             var client = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
             var owner = await _userHelper.GetUserByEmailAsync(property.Owner.Email);
-            var proposalState =  _proposalRepository.GetProposalStates(3);
+            var proposalState =  _proposalRepository.GetProposalStates(4);
 
             if (ModelState.IsValid)
             {
@@ -344,11 +344,10 @@ namespace Web_ManagementHouseRentals.Controllers
 
         public async Task<IActionResult> ProposalAccepted(int? id)
         {
-            var adminList = await _userHelper.GetUsersWithThisRole("Admin");
-            var admin = adminList.FirstOrDefault();
+           
             var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
 
-            proposal.proposalState = _proposalRepository.GetProposalStates(1);
+            proposal.proposalState = _proposalRepository.GetProposalStates(2);
 
             await _proposalRepository.UpdateAsync(proposal);
 

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Common.Data.Entities.Proposal>
+
+@{
+    ViewData["Title"] = "IndexProposals";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">List of Customers</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive justify-content-center">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Owner.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.property.NameProperty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Client.FullName)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Owner.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.property.NameProperty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Client.FullName)
+                            </td>
+                            <td>
+                                <div class="text-center text-justify">
+                                    <a class="btn btn-warning btn-icon-split btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                                        <span class="icon text-white-50">
+                                            <i class="fa fa-file-pdf"></i>
+                                        </span>
+                                        <span class="text">Create Contract</span>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

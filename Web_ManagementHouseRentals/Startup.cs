@@ -71,6 +71,8 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IComboHelper, ComboHelper>();
+            services.AddScoped<IProposalHelper, ProposalHelper>();
+            services.AddScoped<IApiService, ApiService>();
 
             //Repositories
             services.AddScoped<IContractRepository, ContractRepository>();
@@ -80,7 +82,6 @@ namespace Web_ManagementHouseRentals
             services.AddScoped<ISizeTypeRepository, SizeTypeRepository>();
             services.AddScoped<IPropertyTypeRepository, PropertyTypeRepository>();
             services.AddScoped<IEnergyCertificateRepository, EnergyCertificateRepository>();
-            services.AddScoped<IZipCodeRepository, ZipCodeRepository>();
             services.AddScoped<IProperty_PhotoRepository, Property_PhotoRepository>();
             services.AddScoped<IExtraRepository, ExtraRepository>();
 

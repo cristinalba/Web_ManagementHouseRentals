@@ -35,7 +35,7 @@ namespace Web_ManagementHouseRentals.Data
 
 
         [Display(Name = "Zip Code")]
-        public ZipCode ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
 
         [Display(Name = "Extras")]
@@ -45,10 +45,10 @@ namespace Web_ManagementHouseRentals.Data
         public double Area { get; set; } //Area
 
 
-        public double Latitude { get; set; } //Mapa1
+        public double Lat{ get; set; } //Mapa1
 
 
-        public double Longitude { get; set; } //Mapa2
+        public double Long { get; set; } //Mapa2
 
         [Required]
         [Display(Name = "Energy Certificate")]

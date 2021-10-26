@@ -19,6 +19,8 @@ namespace Web_ManagementHouseRentals.Models
 
         public string Address { get; set; }
 
+        public string ZipCode { get; set; }
+
         [Display(Name = "Area m2")]
         public double Area { get; set; }
 

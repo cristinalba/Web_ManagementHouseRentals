@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_ManagementHouseRentals.Data;
 
 namespace Common.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211026165744_DeleteZipCodeEntity")]
+    partial class DeleteZipCodeEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -463,12 +465,9 @@ namespace Common.Migrations
 
                     b.Property<int>("EnergyCertificateId")
                         .HasColumnType("int");
-                        
+
                     b.Property<double>("Lat")
                         .HasColumnType("float");
-                    
-                    b.Property<bool>("IsPropertyDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<double>("Long")
                         .HasColumnType("float");

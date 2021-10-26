@@ -62,10 +62,17 @@
                                 <textarea asp-for="Description" rows="4" class="form-control"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="Address" class="control-label"></label>
-                                <input asp-for="Address" class="form-control" placeholder="Ex: Rua Jau, Nº31" />
-                                <span asp-validation-for="Address" class="text-danger"></span>
+                            <div class="d-flex">
+                                <div class="form-group mb-3 mr-5 w-75">
+                                    <label asp-for="Address" class="control-label"></label>
+                                    <input asp-for="Address" class="form-control" placeholder="Ex: Rua Jau, Nº31" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="ZipCode" class="control-label"></label>
+                                    <input asp-for="ZipCode" class="form-control" placeholder="Ex: 2800-000" />
+                                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                                </div>
                             </div>
                             <div class="d-flex">
                                 <div class="form-group mb-3 mr-5 w-50">
@@ -111,24 +118,24 @@
                                                                    name="selectedExtras"
                                                                    value="@item.Id"
                                                                    @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
-                                                               @:  @item.Name
+                                                            @:  @item.Name
                                                         @:</td>
                                                     }
                                                 @:</tr>
                                                 }
-                                        </table>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label asp-for="ImagesFiles" class="control-label"></label>
+                                        <input asp-for="ImagesFiles" multiple class="form-control" type="file" />
+                                        <span asp-validation-for="ImagesFiles" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label asp-for="ImagesFiles" class="control-label"></label>
-                                    <input asp-for="ImagesFiles" multiple class="form-control" type="file" />
-                                    <span asp-validation-for="ImagesFiles" class="text-danger"></span>
+                                <div class="form-group">
+                                    <input type="submit" value="Submit" class="form-control btn btn-success rounded submit px-3" />
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Submit" class="form-control btn btn-success rounded submit px-3" />
-                            </div>
-                        </form>
+                            </form>
                     </div>
                 </div>
             </div>

@@ -25,8 +25,6 @@ namespace Web_ManagementHouseRentals.Data
 
         public DbSet<SizeType> SizeTypes { get; set; }
 
-        public DbSet<ZipCode> ZipCodes { get; set; }
-
         public DbSet<Property_Photo> Property_Photos { get; set; }
 
         public DbSet<ProposalState> ProposalStates { get; set; }

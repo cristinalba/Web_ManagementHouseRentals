@@ -57,8 +57,6 @@ namespace Web_ManagementHouseRentals.Helpers
             return await _userManager.GetUsersInRoleAsync(roleName);
         }
 
-    
-
         public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
         {
             return await _userManager.ConfirmEmailAsync(user, token);

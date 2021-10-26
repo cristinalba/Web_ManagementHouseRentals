@@ -13,5 +13,7 @@ namespace Web_ManagementHouseRentals.Helpers
         ICollection<SelectListItem> GetComboSizeTypes();
 
         ICollection<SelectListItem> GetComboCertificate();
+
+        ICollection<SelectListItem> GetComboProposalStates();
     }
 }

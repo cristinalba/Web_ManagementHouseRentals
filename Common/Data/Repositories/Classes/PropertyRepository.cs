@@ -36,14 +36,21 @@ namespace Common.Data.Repositories
         
         public async Task<IEnumerable<Property>> GetPropertiesOfCustomerAsync(string id)
         {
-            return await _dataContext.Properties.Where(u => u.Owner.Id == id).ToListAsync();
+            return await _dataContext.Properties
+                                    .Where(u => u.Owner.Id == id)
+                                    .Where(p => p.AvailableProperty == true)
+                                    .Where(p => p.IsPropertyDeleted == false)
+                                    .ToListAsync();
         }
 
         public async Task<IEnumerable<Property>> GetPropertiesToIndexAsync()
         {
             return await _dataContext.Properties.Include(p => p.Type)
                                           .Include(p => p.SizeType)
-                                          .Include(p => p.PropertyPhotos).ToListAsync();
+                                          .Include(p => p.PropertyPhotos)
+                                          .Where(p => p.AvailableProperty==true)
+                                          .Where(p => p.IsPropertyDeleted==false)
+                                          .ToListAsync();
         }
     }
 }

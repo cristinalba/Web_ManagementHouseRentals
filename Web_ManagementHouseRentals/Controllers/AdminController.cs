@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Syncfusion.Pdf.Parsing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
@@ -526,5 +528,38 @@ namespace Web_ManagementHouseRentals.Controllers
         ///                                                                 /////////
         /////////////////////////////////////////////////////////////////////////////
         ///
+
+
+        public IActionResult CreatePdfContract()
+        {
+            string path = Path.Combine(
+                Directory.GetCurrentDirectory(),$"wwwroot\\Pdf\\rental4ucontract.pdf");
+
+            //Load the PDF document
+            FileStream docStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            PdfLoadedDocument loadedDocument = new PdfLoadedDocument(docStream);
+            //Loads the form
+            PdfLoadedForm form = loadedDocument.Form;
+            //Fills the textbox field by using index
+            (form.Fields["txtContractId"] as PdfLoadedTextBoxField).Text = "13223";
+            //Fills the textbox fields by using field name
+            (form.Fields["txtDate"] as PdfLoadedTextBoxField).Text = "12/01/2021";
+            (form.Fields["txtLandlord"] as PdfLoadedTextBoxField).Text = "Cristina ";
+            (form.Fields["txtTenant"] as PdfLoadedTextBoxField).Text = "Vasco ";
+            (form.Fields["txtPropertyId"] as PdfLoadedTextBoxField).Text = "32132 ";
+            //Save the PDF document to stream
+            MemoryStream stream = new MemoryStream();
+            loadedDocument.Save(stream);
+            //If the position is not set to '0' then the PDF will be empty.
+            stream.Position = 0;
+            //Close the document.
+            loadedDocument.Close(true);
+            //Defining the ContentType for pdf file.
+            string contentType = "application/pdf";
+            //Define the file name.
+            string fileName = "output.pdf";
+            //Creates a FileContentResult object by using the file contents, content type, and file name.
+            return File(stream, contentType, fileName);
+        }
     }
 }

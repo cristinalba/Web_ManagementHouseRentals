@@ -13,6 +13,7 @@ namespace Web_ManagementHouseRentals.Models
     public class CreatePropertyViewModel
     {
         [Display(Name = "Ad Title")]
+
         public string NameProperty { get; set; }
 
         public string Description { get; set; }

@@ -9,7 +9,7 @@ using Web_ManagementHouseRentals.Data.Entities;
 
 namespace Common.Data.Repositories.Classes
 {
-    public class ContractRepository : GenericRepository<Contract> , IContractRepository
+    public class ContractRepository : GenericRepository<Contract>, IContractRepository
     {
         private readonly DataContext _dataContext;
 
@@ -25,5 +25,17 @@ namespace Common.Data.Repositories.Classes
                         .ThenInclude(c => c.Owner)
                         .Include(c => c.Tenant);
         }
+   
+
+        public IQueryable<Contract> GetContractsOfUserAsync(string mail)
+        {
+            return _dataContext.Contracts
+                                    .Include(c => c.Tenant)
+                                    .Include(c => c.Property)
+                                    .ThenInclude(c => c.Owner)
+                                    .Where(c => c.Property.Owner.Email == mail || c.Tenant.Email == mail);
+                                
+        }
     }
+
 }

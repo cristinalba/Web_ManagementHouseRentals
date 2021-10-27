@@ -25,22 +25,26 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly ISizeTypeRepository _sizeTypeRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly IMailHelper _mailHelper;
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IProposalRepository _proposalRepository;
+        private readonly IContractRepository _contractRepository;
         private readonly IApiService _apiService;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
-                                    IPropertyRepository propertyRepository, 
+                                    IConverterHelper converterHelper,
+                                    IImageHelper imageHelper,
+                                    IMailHelper mailHelper,
                                     IComboHelper comboHelper,
+                                    IPropertyRepository propertyRepository,
                                     IExtraRepository extraRepository,
                                     IEnergyCertificateRepository energyCertificateRepository,
                                     IPropertyTypeRepository propertyTypeRepository,
                                     ISizeTypeRepository sizeTypeRepository,
-                                    IConverterHelper converterHelper,
-                                    IImageHelper imageHelper,
                                     IProperty_PhotoRepository property_PhotoRepository,
                                     IProposalRepository proposalRepository,
+                                    IContractRepository contractRepository,
                                     IApiService apiService) 
         {
             _propertyRepository = propertyRepository;
@@ -51,8 +55,10 @@ namespace Web_ManagementHouseRentals.Controllers
             _sizeTypeRepository = sizeTypeRepository;
             _converterHelper = converterHelper;
             _imageHelper = imageHelper;
+            _mailHelper = mailHelper;
             _property_PhotoRepository = property_PhotoRepository;
             _proposalRepository = proposalRepository;
+            _contractRepository = contractRepository;
             _apiService = apiService;
             _userHelper = userHelper;  
         }
@@ -321,6 +327,9 @@ namespace Web_ManagementHouseRentals.Controllers
                 var proposal =_converterHelper.ToProposalAsync(model, client, owner, property, proposalState);
                 await _proposalRepository.CreateAsync(proposal);
                 ViewBag.Message = "Message sent successfully!";
+                Response response = _mailHelper
+                        .SendEmail(property.Owner.Email, "A potencial tenant from Rental4U", $"<h3>Check your proposals</h3>" +
+                        $"<h5>You have a message. Someone is interested in your property in {property.Address}</h5> Thank you for choosing us");
                 model.Message = "";
                 model.Name = "";
                 model.Email = "";
@@ -374,10 +383,15 @@ namespace Web_ManagementHouseRentals.Controllers
 
             if (ModelState.IsValid)
             {
-                 var proposalResponse = _converterHelper.ToResponseProposalAsync(model, client, owner, property, proposalState);
+                var proposalResponse = _converterHelper.ToResponseProposalAsync(model, client, owner, property, proposalState);
 
                 await _proposalRepository.CreateAsync(proposalResponse);
                 ViewBag.Message = "Message sent successfully!";
+
+                Response response = _mailHelper
+                        .SendEmail(client.Email, "Message from a landlord of Rental4U", $"<h3>Check your proposals</h3>" +
+                        $"<h5>You have a message. The landlord of the property in {property.Address} contacted you.</h5> Thank you for choosing us");
+
                 return View(model);
             }
 
@@ -394,6 +408,10 @@ namespace Web_ManagementHouseRentals.Controllers
 
             await _proposalRepository.UpdateAsync(proposal);
 
+            Response response = _mailHelper
+                       .SendEmail(proposal.Client.Email, "Message from Rental4U", $"<h3>Check your proposals</h3>" +
+                       $"<h2>Your proposal has been accepted by the landlord of the property in {proposal.property.Address}</h2> Thank you for choosing us");
+
             return RedirectToAction("Proposals");
 
         }
@@ -405,6 +423,10 @@ namespace Web_ManagementHouseRentals.Controllers
             proposal.proposalState = _proposalRepository.GetProposalStates(2);
 
             await _proposalRepository.UpdateAsync(proposal);
+            
+            Response response = _mailHelper
+                       .SendEmail(proposal.Client.Email, "Message from Rental4U", $"<h3>Check your proposals</h3>" +
+                       $"<h2>Your proposal has been rejected by the landlord of the property in {proposal.property.Address}</h2> Thank you for choosing us");
 
             return RedirectToAction("Proposals");
 
@@ -429,6 +451,13 @@ namespace Web_ManagementHouseRentals.Controllers
                 throw;
             }
             return RedirectToAction("Proposals");
+        }
+
+        public IActionResult IndexContracts()
+        {         
+            var contracts = _contractRepository.GetContractsOfUserAsync(this.User.Identity.Name);
+
+            return View(contracts);
         }
 
 

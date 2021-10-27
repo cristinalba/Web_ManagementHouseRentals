@@ -27,7 +27,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IImageHelper _imageHelper;
         private readonly IProperty_PhotoRepository _property_PhotoRepository;
         private readonly IProposalRepository _proposalRepository;
-        private readonly IApiService _apiService;
+        private readonly IApiServiceHelper _apiServiceHelper;
         private readonly IUserHelper _userHelper;
 
         public PropertiesController(IUserHelper userHelper,
@@ -41,7 +41,7 @@ namespace Web_ManagementHouseRentals.Controllers
                                     IImageHelper imageHelper,
                                     IProperty_PhotoRepository property_PhotoRepository,
                                     IProposalRepository proposalRepository,
-                                    IApiService apiService) 
+                                    IApiServiceHelper apiServiceHelper) 
         {
             _propertyRepository = propertyRepository;
             _comboHelper = comboHelper;
@@ -53,7 +53,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _imageHelper = imageHelper;
             _property_PhotoRepository = property_PhotoRepository;
             _proposalRepository = proposalRepository;
-            _apiService = apiService;
+            _apiServiceHelper = apiServiceHelper;
             _userHelper = userHelper;  
         }
 
@@ -118,7 +118,6 @@ namespace Web_ManagementHouseRentals.Controllers
             if (ModelState.IsValid)
             {
                 List<Extra> Extras = new();
-                List<ZipCodeHelper> temporaryZipCode;
 
                 var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 var energyCertificate = await _energyCertificateRepository.GetEnergyCertificateByIdAsync(model.EnergyCertificateId);
@@ -141,9 +140,9 @@ namespace Web_ManagementHouseRentals.Controllers
                     model.ZipCode = str.Remove(4,1);
                 }
 
-                var response = await _apiService.GetZipCodeInfo("https://api.duminio.com", "/ptcp/v2/ptapi617149fb8434c0.60647858/", model.ZipCode);
+                var responseApi = await _apiServiceHelper.GetZipCodeInfo("https://api.duminio.com", "/ptcp/v2/ptapi617149fb8434c0.60647858/", model.ZipCode);
 
-                if (!response.IsSuccess)
+                if (!responseApi.IsSuccess)
                 {
                     ViewBag.MessageZipCode = "Zip Code is not valid. Please insert a valid Zip Code.";
 
@@ -158,9 +157,9 @@ namespace Web_ManagementHouseRentals.Controllers
 
                 }
 
-                var ZipCodeResult = response.Results;
+                //var ZipCodeResult = responseApi.Results;
 
-                temporaryZipCode = (List<ZipCodeHelper>)response.Results;
+                List<ZipCodeHelper> temporaryZipCode = (List<ZipCodeHelper>)responseApi.Results;
 
                 var property = _converterHelper.ToProperty(model, Extras, energyCertificate, propertyType, sizeType, user, temporaryZipCode);
                 await _propertyRepository.CreateAsync(property);

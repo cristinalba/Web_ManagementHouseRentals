@@ -19,6 +19,9 @@ namespace Web_ManagementHouseRentals.Models
         [MinLength(6)]
         public string Password { get; set; }
 
+        [Required]
+        [Range(900000000,999999999, ErrorMessage = "The field {0} must start with 9 and have to contain 9 numbers.")]
+        public int Phone { get; set; }
 
         [Required]
         [Compare("Password")]

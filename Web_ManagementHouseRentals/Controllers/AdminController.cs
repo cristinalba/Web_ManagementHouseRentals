@@ -361,13 +361,21 @@ namespace Web_ManagementHouseRentals.Controllers
             try
             {
                 var property = await _propertyRepository.GetPropertyByIdAsync(model.Id);
+                
 
                 if (property != null)
                 {
-                    property.NameProperty = model.NameProperty;
-                    property.MonthlyPrice = model.MonthlyPrice;
+
+                    model.NameProperty = property.NameProperty;
+                    model.MonthlyPrice = property.MonthlyPrice;
                     property.AvailableProperty = true;
+
                     await _propertyRepository.UpdateAsync(property);
+
+                    Response response = _mailHelper
+                        .SendEmail(property.Owner.Email, "Confirmation from Rental4U", $"<h3>The publication of your property has been approved</h3>" +
+                                                     $"Thank you for choosing us");
+
                 }
                 else
                 {
@@ -622,12 +630,8 @@ namespace Web_ManagementHouseRentals.Controllers
 
                 mail.IsBodyHtml = true;
 
-                mail.Body = "<br/><br/><b>The contract is attached</b><br/>" +
-                    $"<b>Our Company:</b> Rental4U <br/>" +
-                    $"<b>E-mail:</b><br/><br/>" +
-                    "<b>With the following message:</b><br/>" +
-                    $"<br/><br/>" +
-                    $"On {DateTime.Now.ToShortDateString()}<br/>";
+                mail.Body = "<br/><br/><b>The contract is attached to this email</b><br/>" +
+                    "Thank you for choosing us";
 
                 sc.Host = "smtp.gmail.com";
                 sc.Port = 587;

@@ -31,7 +31,10 @@ namespace Common.Data.Repositories
 
         public async Task<Property> GetPropertyByIdAsync(int id)
         {
-            return await _dataContext.Properties.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _dataContext.Properties
+                .Where(x => x.Id == id)
+                .Include(p => p.Owner)
+                .FirstOrDefaultAsync();
         } 
         
         public async Task<IEnumerable<Property>> GetPropertiesOfCustomerAsync(string id)

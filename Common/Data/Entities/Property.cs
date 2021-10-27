@@ -12,7 +12,7 @@ namespace Web_ManagementHouseRentals.Data
         public int Id { get; set; } //PropertyID
 
         [Required]
-        public PropertyType Type { get; set; }
+        public PropertyType Type { get; set; } //property Type
 
         [Required]
         [Display(Name = "Owner")]
@@ -20,35 +20,39 @@ namespace Web_ManagementHouseRentals.Data
 
         [Required]
         [Display(Name = "Property name")]
-        public string NameProperty { get; set; } //property Type
+        public string NameProperty { get; set; }
 
         [Required]
         [Display(Name = "Property description")]
         public string Description { get; set; } //property Description: text
 
         [Required]
-        [Display(Name = "Size type")]
-        public SizeType SizeType { get; set; } //Size Type
-
-
         public string Address { get; set; }//Location
 
-
+        [Required]
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
 
-
-        [Display(Name = "Extras")]
-        public ICollection<Extra> Extra { get; set; } //Amenities
-
-
-        public double Area { get; set; } //Area
-
-
         public double Lat{ get; set; } //Mapa1
 
-
         public double Long { get; set; } //Mapa2
+
+        public string Locality { get; set; }
+
+        public string Municipality { get; set; }
+
+        public string District { get; set; }
+
+        [Required]
+        public double Area { get; set; } //Area
+
+        [Required]
+        [Display(Name = "Size type")]
+        public SizeType SizeType { get; set; } //Size Type
+
+        [Required]
+        [Display(Name = "Extras")]
+        public ICollection<Extra> Extra { get; set; } //Amenities
 
         [Required]
         [Display(Name = "Energy Certificate")]
@@ -67,7 +71,7 @@ namespace Web_ManagementHouseRentals.Data
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public double MonthlyPrice { get; set; } // Price
 
-
+        [Required]
         [Display(Name = "Property Photos")]
         public ICollection<Property_Photo> PropertyPhotos { get; set; }
     }

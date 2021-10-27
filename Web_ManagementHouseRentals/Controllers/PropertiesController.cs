@@ -103,6 +103,8 @@ namespace Web_ManagementHouseRentals.Controllers
                 SizeTypes = _comboHelper.GetComboSizeTypes(),
                 EnergyCertificates = _comboHelper.GetComboCertificate(),
                 Extras = await _extraRepository.GetAllExtras(),
+                Area = 5,
+                MonthlyPrice = 1
             };
 
             return View(model);
@@ -133,7 +135,29 @@ namespace Web_ManagementHouseRentals.Controllers
                     }
                 }
 
+                if (model.ZipCode.Contains("-"))
+                {
+                    string str = model.ZipCode;
+                    model.ZipCode = str.Remove(4,1);
+                }
+
                 var response = await _apiService.GetZipCodeInfo("https://api.duminio.com", "/ptcp/v2/ptapi617149fb8434c0.60647858/", model.ZipCode);
+
+                if (!response.IsSuccess)
+                {
+                    ViewBag.MessageZipCode = "Zip Code is not valid. Please insert a valid Zip Code.";
+
+                    model.PropertyTypes = _comboHelper.GetComboPropertyTypes();
+                    model.SizeTypes = _comboHelper.GetComboSizeTypes();
+                    model.EnergyCertificates = _comboHelper.GetComboCertificate();
+                    model.Extras = await _extraRepository.GetAllExtras();
+                    model.Area = 5;
+                    model.MonthlyPrice = 1;
+
+                    return View(model);
+
+                }
+
                 var ZipCodeResult = response.Results;
 
                 temporaryZipCode = (List<ZipCodeHelper>)response.Results;
@@ -157,9 +181,19 @@ namespace Web_ManagementHouseRentals.Controllers
                         await _property_PhotoRepository.CreateAsync(propertyPhoto);
                     }
                 }
+
+                model.PropertyTypes = _comboHelper.GetComboPropertyTypes();
+                model.SizeTypes = _comboHelper.GetComboSizeTypes();
+                model.EnergyCertificates = _comboHelper.GetComboCertificate();
+                model.Extras = await _extraRepository.GetAllExtras();
+                model.Area = 5;
+                model.MonthlyPrice = 1;
+
+                ViewBag.Message = "Your Property as been submitted and is now being reviewed";
+                return View(model);
             }
 
-            return RedirectToAction(nameof(IndexCustomers));
+            return View(model);
         }
 
         // GET: PropertiesController/Edit/5

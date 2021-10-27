@@ -61,7 +61,6 @@ namespace Web_ManagementHouseRentals.Helpers
                 Description = model.Description,
                 Address = model.Address,
                 Area = model.Area,
-                AvailableProperty = model.AvailableProperty,
                 MonthlyPrice = model.MonthlyPrice,
                 Type = propertyType,
                 EnergyCertificate = energyCertificate,
@@ -70,7 +69,10 @@ namespace Web_ManagementHouseRentals.Helpers
                 Owner = owner,
                 ZipCode = temporaryZipCode[0].CodigoPostal,
                 Lat = temporaryZipCode[0].Latitude,
-                Long = temporaryZipCode[0].Longitude
+                Long = temporaryZipCode[0].Longitude,
+                Locality = temporaryZipCode[0].Freguesia,
+                Municipality = temporaryZipCode[0].Concelho,
+                District = temporaryZipCode[0].Distrito
             };
 
         }

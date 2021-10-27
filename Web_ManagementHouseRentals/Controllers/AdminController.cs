@@ -524,6 +524,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
         public IActionResult IndexPendingProposals()
         {
+
             var proposals = _proposalRepository.GetAcceptedProposalsAsync("Wating for Admin approval");
 
             return View(proposals);
@@ -536,6 +537,13 @@ namespace Web_ManagementHouseRentals.Controllers
         /////////////////////////////////////////////////////////////////////////////
         ///
 
+        public IActionResult IndexContracts()
+        {
+            var contracts = _contractRepository.GetContractsWithInfo().OrderByDescending(c => c.Start);
+
+            return View(contracts);
+        }
+
 
         public async Task<IActionResult> CreatePdfContract(int? id)
         {
@@ -544,8 +552,17 @@ namespace Web_ManagementHouseRentals.Controllers
                 return NotFound();
             }
 
-            string guid = Guid.NewGuid().ToString();
             var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+
+            proposal.proposalState = _proposalRepository.GetProposalStates(1);
+
+            proposal.property.IsPropertyDeleted = true;
+
+            await _proposalRepository.UpdateAsync(proposal);
+            await _propertyRepository.UpdateAsync(proposal.property);
+
+
+            string guid = Guid.NewGuid().ToString();
             var landlordEmail = proposal.property.Owner.Email;
             var tenantEmail = proposal.Client.Email;
             var landlordName = proposal.property.Owner.FullName;
@@ -631,7 +648,7 @@ namespace Web_ManagementHouseRentals.Controllers
                 ViewBag.Message = ex.Message.ToString();
             }
 
-            return RedirectToAction("IndexPendingProposals");
+            return RedirectToAction("IndexContracts");
         }
     }
 }

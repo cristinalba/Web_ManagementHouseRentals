@@ -9,6 +9,6 @@ namespace Common.Data.Repositories
 {
     public interface IContractRepository : IGenericRepository<Contract>
     {
-
+        IQueryable<Contract> GetContractsWithInfo();
     }
 }

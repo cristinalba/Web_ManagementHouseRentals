@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,14 @@ namespace Common.Data.Repositories.Classes
         public ContractRepository(DataContext dataContext) : base(dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public IQueryable<Contract> GetContractsWithInfo()
+        {
+            return _dataContext.Contracts
+                        .Include(c => c.Property)
+                        .ThenInclude(c => c.Owner)
+                        .Include(c => c.Tenant);
         }
     }
 }

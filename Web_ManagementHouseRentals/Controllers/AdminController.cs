@@ -1,4 +1,5 @@
 ﻿using Common.Data.Repositories;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Web_ManagementHouseRentals.Data.Entities;
 using Web_ManagementHouseRentals.Helpers;
@@ -28,7 +31,9 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IPropertyRepository _propertyRepository;
         private readonly IProposalRepository _proposalRepository;
+        private readonly IContractRepository _contractRepository;
         private Random _random;
+        private object sendMail;
 
         public AdminController(IUserHelper userHelper,
                                 IImageHelper imageHelper,
@@ -37,7 +42,8 @@ namespace Web_ManagementHouseRentals.Controllers
                                 IMailHelper mailHelper,
                                 UserManager<User> userManager,
                                 IPropertyRepository propertyRepository,
-                                IProposalRepository proposalRepository)
+                                IProposalRepository proposalRepository,
+                                IContractRepository contractRepository)
         {
             _userHelper = userHelper;
             _imageHelper = imageHelper;
@@ -47,6 +53,7 @@ namespace Web_ManagementHouseRentals.Controllers
             _userManager = userManager;
             _propertyRepository = propertyRepository;
             _proposalRepository = proposalRepository;
+            _contractRepository = contractRepository;
             _random = new Random();
         }
 
@@ -530,36 +537,101 @@ namespace Web_ManagementHouseRentals.Controllers
         ///
 
 
-        public IActionResult CreatePdfContract()
+        public async Task<IActionResult> CreatePdfContract(int? id)
         {
-            string path = Path.Combine(
-                Directory.GetCurrentDirectory(),$"wwwroot\\Pdf\\rental4ucontract.pdf");
+            if(id == null)
+            {
+                return NotFound();
+            }
 
-            //Load the PDF document
-            FileStream docStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-            PdfLoadedDocument loadedDocument = new PdfLoadedDocument(docStream);
-            //Loads the form
-            PdfLoadedForm form = loadedDocument.Form;
-            //Fills the textbox field by using index
-            (form.Fields["txtContractId"] as PdfLoadedTextBoxField).Text = "13223";
-            //Fills the textbox fields by using field name
-            (form.Fields["txtDate"] as PdfLoadedTextBoxField).Text = "12/01/2021";
-            (form.Fields["txtLandlord"] as PdfLoadedTextBoxField).Text = "Cristina ";
-            (form.Fields["txtTenant"] as PdfLoadedTextBoxField).Text = "Vasco ";
-            (form.Fields["txtPropertyId"] as PdfLoadedTextBoxField).Text = "32132 ";
-            //Save the PDF document to stream
-            MemoryStream stream = new MemoryStream();
-            loadedDocument.Save(stream);
-            //If the position is not set to '0' then the PDF will be empty.
-            stream.Position = 0;
-            //Close the document.
-            loadedDocument.Close(true);
-            //Defining the ContentType for pdf file.
-            string contentType = "application/pdf";
-            //Define the file name.
-            string fileName = "output.pdf";
-            //Creates a FileContentResult object by using the file contents, content type, and file name.
-            return File(stream, contentType, fileName);
+            string guid = Guid.NewGuid().ToString();
+            var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+            var landlordEmail = proposal.property.Owner.Email;
+            var tenantEmail = proposal.Client.Email;
+            var landlordName = proposal.property.Owner.FullName;
+            var tenantName = proposal.Client.FullName;
+            var propertyId = proposal.property.Id;
+
+            Contract contract = new()
+            {
+                GuidId = guid,
+                Tenant = proposal.Client,
+                Start = DateTime.Now,
+                MonthlyPrice = proposal.property.MonthlyPrice,
+                Property = proposal.property,
+                ContractIssued = true
+            };
+            await _contractRepository.CreateAsync(contract);
+
+            
+            var pathPdf = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\pdf\\");
+
+            string pathTemplate = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\pdf\\template\\rental4ucontract.pdf");
+
+            var namePdf = contract.GuidId + ".pdf";
+            string newFile = pathPdf + namePdf;
+
+            PdfReader pdfreader = new PdfReader(pathTemplate);
+            try
+            {
+                PdfStamper pdfstamper = new PdfStamper(pdfreader, new FileStream(newFile, FileMode.Create));
+                AcroFields camposPDF = pdfstamper.AcroFields;
+                camposPDF.SetField("txtContractId", contract.GuidId);
+                camposPDF.SetField("txtDate", DateTime.Now.ToShortDateString());
+                camposPDF.SetField("txtLandlord", landlordName);
+                camposPDF.SetField("txtTenant", tenantName);
+                camposPDF.SetField("txtPropertyId", $"REF:{_random.Next(10000, 99999).ToString()}");
+
+                pdfstamper.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            //TODO: METER um alert bonito e fazer esta exception aqui em cima
+
+            try
+            {
+                SmtpClient sc = new SmtpClient();
+                MailMessage mail = new MailMessage();
+
+
+                mail.From = new MailAddress("dinocinel3@gmail.com");
+                mail.To.Add(new MailAddress(tenantEmail));
+                mail.To.Add(new MailAddress(landlordEmail));
+                mail.Subject = $"Rental4U lease contract";
+
+                mail.IsBodyHtml = true;
+
+                mail.Body = "<br/><br/><b>The contract is attached</b><br/>" +
+                    $"<b>Our Company:</b> Rental4U <br/>" +
+                    $"<b>E-mail:</b><br/><br/>" +
+                    "<b>With the following message:</b><br/>" +
+                    $"<br/><br/>" +
+                    $"On {DateTime.Now.ToShortDateString()}<br/>";
+
+                sc.Host = "smtp.gmail.com";
+                sc.Port = 587;
+
+                Attachment att = new Attachment(newFile);
+                mail.Attachments.Add(att);
+                sc.Credentials = new NetworkCredential("dinocinel3@gmail.com", "dinoPass3");
+                sc.EnableSsl = true;
+
+                sc.Send(mail);
+
+                ViewBag.Message = "Message sent!";
+
+                ModelState.Clear();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message.ToString();
+            }
+
+            return RedirectToAction("IndexPendingProposals");
         }
     }
 }

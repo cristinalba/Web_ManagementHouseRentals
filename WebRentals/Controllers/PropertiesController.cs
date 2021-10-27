@@ -320,7 +320,7 @@ namespace Web_ManagementHouseRentals.Controllers
             var client = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
             var owner = await _userHelper.GetUserByEmailAsync(property.Owner.Email);
-            var proposalState =  _proposalRepository.GetProposalStates(4);
+            var proposalState =  _proposalRepository.GetProposalStates(5);
 
             if (ModelState.IsValid)
             {
@@ -352,6 +352,13 @@ namespace Web_ManagementHouseRentals.Controllers
             if (proposal == null)
             {
                 return NotFound();
+            }
+
+            if (proposal.proposalState != _proposalRepository.GetProposalStates(2) || proposal.proposalState != _proposalRepository.GetProposalStates(1))
+            {
+                proposal.proposalState = _proposalRepository.GetProposalStates(3);
+
+                await _proposalRepository.UpdateAsync(proposal);
             }
 
             var model = new EditProposalViewModel
@@ -406,6 +413,19 @@ namespace Web_ManagementHouseRentals.Controllers
 
             proposal.proposalState = _proposalRepository.GetProposalStates(2);
 
+            var proposalToClient = new Proposal
+            {
+                property = proposal.property,
+                proposalState = _proposalRepository.GetProposalStates(1),
+                Message = "Proposal accepted! The admin will create the contract and send it to you email.",
+                ProposalDate = proposal.ProposalDate,
+                Owner = proposal.Client,
+                Client = proposal.Owner
+            };
+
+            await _proposalRepository.CreateAsync(proposalToClient);
+
+
             await _proposalRepository.UpdateAsync(proposal);
 
             Response response = _mailHelper
@@ -420,7 +440,19 @@ namespace Web_ManagementHouseRentals.Controllers
         {
             var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
 
-            proposal.proposalState = _proposalRepository.GetProposalStates(2);
+            proposal.proposalState = _proposalRepository.GetProposalStates(4);
+
+            var proposalToClient = new Proposal
+            {
+                property = proposal.property,
+                proposalState = proposal.proposalState,
+                Message = "Proposal Rejected!",
+                ProposalDate = proposal.ProposalDate,
+                Owner = proposal.Client,
+                Client = proposal.Owner
+            };
+
+            await _proposalRepository.CreateAsync(proposalToClient);
 
             await _proposalRepository.UpdateAsync(proposal);
             

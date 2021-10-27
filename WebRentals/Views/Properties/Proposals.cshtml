@@ -52,27 +52,33 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProposalDate)
                 </td>
-                @if (item.proposalState.Id == 4)
+                @if (item.proposalState.Id == 1)
                 {
-                    <td class="text-warning">
-                        @Html.DisplayFor(modelItem => item.proposalState.State)
-                    </td>
-                }
-                else if (item.proposalState.Id == 3)
-                {
-                    <td class="text-danger">
+                    <td class="text-success">
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }
                 else if (item.proposalState.Id == 2)
                 {
+                    <td class="text-primary">
+                        @Html.DisplayFor(modelItem => item.proposalState.State)
+                    </td>
+                }
+                else if (item.proposalState.Id == 3)
+                {
                     <td class="text-info">
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }
-                else if (item.proposalState.Id == 1)
+                else if (item.proposalState.Id == 4)
                 {
-                    <td class="text-success">
+                    <td class="text-danger">
+                        @Html.DisplayFor(modelItem => item.proposalState.State)
+                    </td>
+                }
+                else if (item.proposalState.Id == 5)
+                {
+                    <td class="text-warning">
                         @Html.DisplayFor(modelItem => item.proposalState.State)
                     </td>
                 }

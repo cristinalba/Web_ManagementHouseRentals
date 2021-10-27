@@ -8,7 +8,7 @@ using Web_ManagementHouseRentals.Data.Entities;
 
 namespace Web_ManagementHouseRentals.Helpers
 {
-    public class ApiService : IApiService
+    public class ApiServiceHelper : IApiServiceHelper
     {
 
         public async Task<Response> GetZipCodeInfo(string urlBase, string controller, string zipCode)
@@ -34,6 +34,15 @@ namespace Web_ManagementHouseRentals.Helpers
                 }
 
                 var AdressInfo = JsonConvert.DeserializeObject<List<ZipCodeHelper>>(result);
+
+                if(AdressInfo.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
 
                 return new Response
                 {

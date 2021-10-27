@@ -65,12 +65,6 @@
                                     <label asp-for="ZipCode" class="control-label"></label>
                                     <input asp-for="ZipCode" class="form-control" placeholder="Ex: 2800-000" />
                                     <span asp-validation-for="ZipCode" class="text-danger"></span>
-                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1"
-                                                                    runat="server"
-                                                                    ControlToValidate="ZipCode"
-                                                                    ErrorMessage="TextBox3 Must be a US Zip Code"
-                                                                    SetFocusOnError="True"
-                                                                    ValidationExpression="\d{5}(-\d{4})?">*</asp:RegularExpressionValidator><br />
                                 </div>
                             </div>
                             <div class="row">

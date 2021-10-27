@@ -23,18 +23,21 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IConfiguration _configuration;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IApiServiceHelper _apiServiceHelper;
 
         public AccountController(IUserHelper userHelper,
                                  IMailHelper mailHelper,
                                  IConfiguration configuration,
                                  IImageHelper imageHelper,
-                                 IConverterHelper converterHelper)
+                                 IConverterHelper converterHelper,
+                                 IApiServiceHelper apiServiceHelper)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _configuration = configuration;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+            _apiServiceHelper = apiServiceHelper;
         }
 
         public IActionResult Index()
@@ -101,20 +104,38 @@ namespace Web_ManagementHouseRentals.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
+                    if (model.ZipCode.Contains("-"))
+                    {
+                        string str = model.ZipCode;
+                        model.ZipCode = str.Remove(4, 1);
+                    }
+
+                    var responseApi = await _apiServiceHelper.GetZipCodeInfo("https://api.duminio.com", "/ptcp/v2/ptapi617149fb8434c0.60647858/", model.ZipCode);
+
+                    if (!responseApi.IsSuccess)
+                    {
+                        ViewBag.MessageZipCode = "Zip Code is not valid. Please insert a valid Zip Code.";
+                        return View(model);
+                    }
+
+                    List<ZipCodeHelper> temporaryZipCode = (List<ZipCodeHelper>)responseApi.Results;
+
                     user = new User
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         BirthDate = model.BirthDate,
-                        PhoneNumber = model.PhoneNumber,
+                        PhoneNumber = model.Phone.ToString(),
                         CC = model.CC,
                         NIF = model.NIF,
                         Address = model.Address,
                         ZipCode = model.ZipCode,
                         Email = model.Username,
-                        UserName = model.Username
+                        UserName = model.Username,
+                        Locality = temporaryZipCode[0].Concelho,
+                        Municipality = temporaryZipCode[0].Freguesia,
+                        District = temporaryZipCode[0].Distrito
                     };
-
                     var result = await _userHelper.AddUserAsync(user, model.Password);
 
                     await _userHelper.AddUserToRoleAsync(user, "Customer");
@@ -138,16 +159,14 @@ namespace Web_ManagementHouseRentals.Controllers
 
                     if (response.IsSuccess)
                     {
-                        ViewBag.Message = "The instructions to allow the user have been sent to the email";
+                        ViewBag.Message = "Sign in successful. Check your email box for further instructions.";
                         return View(model);
                     }
 
                     ModelState.AddModelError(string.Empty, "The user couldn't be logged.");
 
                 }
-
             }
-
             return View(model);
         }
         public async Task<IActionResult> ChangeUser()

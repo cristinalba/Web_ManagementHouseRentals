@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Web_ManagementHouseRentals.Helpers
 {
-    public interface IApiService
+    public interface IApiServiceHelper
     {
         Task<Response> GetZipCodeInfo(string urlBase, string controller, string zipCode);
     }

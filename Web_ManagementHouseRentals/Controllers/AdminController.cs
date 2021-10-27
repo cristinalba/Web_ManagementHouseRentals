@@ -561,16 +561,19 @@ namespace Web_ManagementHouseRentals.Controllers
             }
 
             var proposal = await _proposalRepository.GetProposalByIdAsync(id.Value);
+            var proposalClient = await _proposalRepository.GetClientProposal(proposal.Client, proposal.property);
 
+            proposalClient.proposalState = _proposalRepository.GetProposalStates(1);
             proposal.proposalState = _proposalRepository.GetProposalStates(1);
 
             proposal.property.IsPropertyDeleted = true;
 
             await _proposalRepository.UpdateAsync(proposal);
+            await _proposalRepository.UpdateAsync(proposalClient);
             await _propertyRepository.UpdateAsync(proposal.property);
 
 
-            string guid = Guid.NewGuid().ToString();
+            string guid = _random.Next(10000, 99999).ToString();
             var landlordEmail = proposal.property.Owner.Email;
             var tenantEmail = proposal.Client.Email;
             var landlordName = proposal.property.Owner.FullName;
@@ -601,7 +604,7 @@ namespace Web_ManagementHouseRentals.Controllers
             {
                 PdfStamper pdfstamper = new PdfStamper(pdfreader, new FileStream(newFile, FileMode.Create));
                 AcroFields camposPDF = pdfstamper.AcroFields;
-                camposPDF.SetField("txtContractId", contract.GuidId);
+                camposPDF.SetField("txtContractId", $"ID:{contract.GuidId}");
                 camposPDF.SetField("txtDate", DateTime.Now.ToShortDateString());
                 camposPDF.SetField("txtLandlord", landlordName);
                 camposPDF.SetField("txtTenant", tenantName);

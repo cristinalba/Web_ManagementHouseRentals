@@ -52,6 +52,11 @@ namespace Common.Data.Repositories.Classes
                                                                   .Include(p => p.proposalState);
         }
 
-
+        public async Task<Proposal> GetClientProposal(User client, Property property)
+        {
+            return await _dataContext.Proposals.Where(p => p.Client == client && p.property == property)
+                                                .Include(p => p.proposalState)
+                                                .FirstOrDefaultAsync();
+        }
     }
 }

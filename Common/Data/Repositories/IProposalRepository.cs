@@ -19,5 +19,7 @@ namespace Common.Data.Repositories
 
 
         IQueryable<Proposal> GetAcceptedProposalsAsync(string state);
+
+        Task<Proposal> GetClientProposal(User client, Property property);
     }
 }

@@ -22,7 +22,7 @@
 </section>
 <!--/ Intro Single End /-->
 <div class="container">
-    <a asp-action="Create">Create New Property</a>
+    <a asp-action="Create" class="btn btn-success mb-3">Create New Property</a>
     <table class="table" id="indexPropertyCustomerTable">
         <thead>
             <tr>
@@ -39,7 +39,7 @@
                     @Html.DisplayNameFor(model => model.MonthlyPrice)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AvailableProperty)
+                    @Html.DisplayNameFor(model => model.District)
                 </th>
                 <th></th>
             </tr>
@@ -61,7 +61,7 @@
                         @Html.DisplayFor(modelItem => item.MonthlyPrice)€
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AvailableProperty)
+                        @Html.DisplayFor(modelItem => item.District)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" title="Edit" class="btn btn-outline-warning fa fa-edit"></a>

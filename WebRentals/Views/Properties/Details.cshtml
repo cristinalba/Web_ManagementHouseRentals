@@ -166,66 +166,52 @@
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-6 col-lg-4">
-                        <img src="/images/rental4u.jpg" alt="" class="img-fluid">
-                <div class="col-md-8 col-lg-6">
-                    </div>
                     <div class="col-md-6 col-lg-4">
-                        <div class="property-agent">
-                            <h4 class="title-agent">@Html.DisplayFor(model => model.Owner.FullName)</h4>
-                            <ul class="list-unstyled">
-                                <li class="d-flex justify-content-between">
-                                    <strong>Phone:</strong>
-                                    <span class="color-text-a">@Html.DisplayFor(model => model.Owner.PhoneNumber)</span>
-                                </li>
-                                <li class="d-flex justify-content-between">
-                                    <strong>Email:</strong>
-                                    <span class="color-text-a">@Html.DisplayFor(model => model.Owner.Email)</span>
-                                </li>
-                                <li>
-                                    <a asp-action="SendProposal" class="btn btn-a" asp-route-id="@Model.Id">Get in touch</a>
-                                </li>
-                            </ul>
+                        <img src="/images/rental4u.jpg" alt="" class="img-fluid">
+                        <div class="col-md-8 col-lg-6"></div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="property-agent">
+                                <h4 class="title-agent">@Html.DisplayFor(model => model.Owner.FullName)</h4>
+                                <ul class="list-unstyled">
+                                    <li class="d-flex justify-content-between">
+                                        <strong>Phone:</strong>
+                                        <span class="color-text-a">@Html.DisplayFor(model => model.Owner.PhoneNumber)</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between">
+                                        <strong>Email:</strong>
+                                        <span class="color-text-a">@Html.DisplayFor(model => model.Owner.Email)</span>
+                                    </li>
+                                    @if (this.User.Identity.IsAuthenticated && Model.Owner.Email != this.User.Identity.Name)
+                                    {
+                                        <li>
+                                            <a asp-action="SendProposal" class="btn btn-a" asp-route-id="@Model.Id">Get in touch</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
-                   
-                    @if (!this.User.Identity.IsAuthenticated)
-                    {
-                        <div class="col-md-12 col-lg-4">
-                            <div class="property-contact">
-                                <div class="row">
-                                    <div class="col-md-12 mb-1">
-                                        <div class="title-box-d section-t4">
-                                            <h3 class="title-d">Login to contact the property's landlord</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mb-1">
+                    </div>
+                </div>
+                @if (!this.User.Identity.IsAuthenticated)
+                {
+                    <div class="container">
+                        <div class="property-contact">
+                            <div class="row">
+                                <div class="col-md-12 mb-1 text-center">
+                                    <div class="title-box-d section-t4">
+                                        <h4>Login or create an account to contact the property's landlord</h4>
                                         <a asp-controller="Account" asp-action="Login" class="btn btn-success">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-list"></i>
-                                            </span>
-                                            <span class="text">Login</span>
+                                            <span class="text-white ">Login</span>
                                         </a>
-                                    </div>
-                                    <div class="col-md-12 mb-1">
-                                        <div class="title-box-d section-t4">
-                                            <h3 class="title-d">Not a member yet? Create an account to contact property's landlord</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mb-1">
                                         <a asp-controller="Account" asp-action="Register" class="btn btn-success">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-list"></i>
-                                            </span>
-                                            <span class="text">Sign in</span>
+                                            <span class="text-white">Sign in</span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        }
-                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

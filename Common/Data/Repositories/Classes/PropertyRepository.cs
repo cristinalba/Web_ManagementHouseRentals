@@ -51,9 +51,15 @@ namespace Common.Data.Repositories
             return await _dataContext.Properties.Include(p => p.Type)
                                           .Include(p => p.SizeType)
                                           .Include(p => p.PropertyPhotos)
-                                          .Where(p => p.AvailableProperty==true)
-                                          .Where(p => p.IsPropertyDeleted==false)
+                                          .Where(p => p.AvailableProperty == true)
+                                          .Where(p => p.IsPropertyDeleted == false)
                                           .ToListAsync();
+        }
+
+        public IQueryable<Property> GetPropertiesToApi()
+        {
+            return _dataContext.Properties.Include(p => p.Type)
+                                          .Include(p => p.SizeType);
         }
     }
 }

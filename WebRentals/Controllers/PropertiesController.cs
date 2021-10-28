@@ -172,9 +172,14 @@ namespace Web_ManagementHouseRentals.Controllers
                 await _propertyRepository.CreateAsync(property);
 
                 var path = string.Empty;
+                var pathMobile = string.Empty;
 
                 if (model.ImagesFiles != null && model.ImagesFiles.Count > 0)
                 {
+                    pathMobile = await _imageHelper.UploadImageAsync(model.ImagesFiles.FirstOrDefault(), "mobile");
+                    property.PhotoMobile = pathMobile;
+                    await _propertyRepository.UpdateAsync(property);
+
                     foreach (var imageFile in model.ImagesFiles)
                     {
                         path = await _imageHelper.UploadImageAsync(imageFile, "property");

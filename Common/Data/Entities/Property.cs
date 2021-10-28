@@ -74,5 +74,7 @@ namespace Web_ManagementHouseRentals.Data
         [Required]
         [Display(Name = "Property Photos")]
         public ICollection<Property_Photo> PropertyPhotos { get; set; }
+
+        public string PhotoMobile { get; set; }
     }
 }

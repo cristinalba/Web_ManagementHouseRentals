@@ -1,5 +1,6 @@
 using Prism;
 using Prism.Ioc;
+using WebRentals.Prism.Services;
 using WebRentals.Prism.ViewModels;
 using WebRentals.Prism.Views;
 using Xamarin.Essentials.Implementation;
@@ -19,15 +20,16 @@ namespace WebRentals.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            await NavigationService.NavigateAsync("NavigationPage/PropertiesPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-
+            containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<PropertiesPage, PropertiesPageViewModel>();
         }
     }
 }

@@ -51,7 +51,7 @@
             @foreach (var item in Model.PaginatedProperties())
             {
                 <div class="col-md-4">
-                    <div class="card-box-a card-shadow">
+                    <div class="card-box-a card-shadow" style="height: 27rem;">
                         <div class="img-box-a">
                             <img src="@Url.Content(item.PropertyPhotos.FirstOrDefault().ImageUrl)" alt="" class="img-a img-fluid">
                         </div>

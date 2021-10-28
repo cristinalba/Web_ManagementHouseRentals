@@ -196,6 +196,12 @@ namespace Web_ManagementHouseRentals.Controllers
                 model.MonthlyPrice = 1;
 
                 ViewBag.Message = "Your Property as been submitted and is now being reviewed";
+
+                Response response = _mailHelper
+                        .SendEmail("rental4u.c@gmail.com", "A new property has been published", $"<h3>Check the list of the new properties</h3>" +
+                        $"<h5>A new landlord is waiting for the approval of the property</h5>");
+
+
                 return View(model);
             }
 
@@ -385,7 +391,7 @@ namespace Web_ManagementHouseRentals.Controllers
             var client = await _userHelper.GetUserByIdAsync(model.ClientId);
             var property = await _propertyRepository.GetByIdWithInfoAsync(model.PropertyId);
             var owner = await _userHelper.GetUserByIdAsync(model.OwnerId);
-            var proposalState = _proposalRepository.GetProposalStates(model.ProposalStateId);
+            var proposalState = _proposalRepository.GetProposalStates(5);
 
 
             if (ModelState.IsValid)

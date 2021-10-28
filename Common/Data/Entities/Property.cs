@@ -60,7 +60,8 @@ namespace Web_ManagementHouseRentals.Data
 
         [Required]
         [Display(Name = "Is property available?")]
-        public bool AvailableProperty { get; set; } //Status
+        public bool AvailableProperty { get; set; } 
+        //Status on, once the admin accepts it
 
         [Display(Name = "Is property deleted?")]
         public bool IsPropertyDeleted { get; set; } 

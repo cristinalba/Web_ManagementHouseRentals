@@ -152,40 +152,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                         
                                             <div class="row">
-                                                <div class="col-12 col-sm-6">
-                                                    <div class="mb-2"><h5>Change Password</h5></div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label asp-for="OldPassword">Current Password</label>
-                                                                <input asp-for="OldPassword" type="password" class="form-control">
-                                                                <span asp-validation-for="OldPassword" class="text-warning"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label asp-for="NewPassword">New Password</label>
-                                                                <input asp-for="NewPassword" class="form-control" type="password">
-                                                                <span asp-validation-for="NewPassword" class="text-warning"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label asp-for="Confirm">Confirm <span class="d-none d-xl-inline">Password</span></label>
-                                                                <input asp-for="Confirm" class="form-control" type="password">
-                                                            </div>
-                                                            <span asp-validation-for="Confirm" class="text-warning"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
+                                                <div class="col d-flex justify-content-around">
+                                                    <a class="btn btn-warning" asp-action="ChangePassword">Change Password</a>
                                                     <input class="btn btn-success" type="submit" value="Save Changes" />
                                                 </div>
                                             </div>

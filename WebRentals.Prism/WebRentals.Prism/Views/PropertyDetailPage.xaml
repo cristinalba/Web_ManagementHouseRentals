@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WebRentals.Prism.Views.PropertyDetailPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <StackLayout Padding="10">
+            <ffimageloading:CachedImage
+                Aspect="AspectFit"
+                CacheDuration="50"
+                RetryCount="3"
+                RetryDelay="600"
+                Source="{Binding Product.PhotoMobile}"
+                WidthRequest="200" />
+            <Grid Padding="10,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Title:" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding Property.NameProperty}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Preço:" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding Property.MonthlyPrice, StringFormat='{0:C2}'}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Area:" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding Property.Area}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Address:" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="{Binding Property.Address}" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="District:"/>
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Text="{Binding Property.District}" />
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Locality:" />
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Text="{Binding Property.Locality}" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Municipality:" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Text="{Binding Property.Municipality}" />
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

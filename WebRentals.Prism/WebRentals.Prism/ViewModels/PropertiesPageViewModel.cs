@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using WebRentals.Prism.ItemViewModels;
 using WebRentals.Prism.Models;
 using WebRentals.Prism.Services;
 using Xamarin.Essentials;
@@ -16,7 +17,7 @@ namespace WebRentals.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
-        private ObservableCollection<PropertyResponse> _properties;
+        private ObservableCollection<PropertyItemViewModel> _properties;
         private bool _isRunning;
         private string _search;
         private List<PropertyResponse> _myProperties;
@@ -48,7 +49,7 @@ namespace WebRentals.Prism.ViewModels
             set => SetProperty(ref _isRunning, value);
         }
 
-        public ObservableCollection<PropertyResponse> Properties
+        public ObservableCollection<PropertyItemViewModel> Properties
         {
             get => _properties;
             set => SetProperty(ref _properties, value);
@@ -91,13 +92,36 @@ namespace WebRentals.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Search))
             {
-                Properties = new ObservableCollection<PropertyResponse>(_myProperties);
-
+                Properties = new ObservableCollection<PropertyItemViewModel>(_myProperties.Select(p =>
+                new PropertyItemViewModel(_navigationService) 
+                {
+                    Id = p.Id,
+                    NameProperty = p.NameProperty,
+                    Area = p.Area,
+                    Address = p.Address,
+                    District = p.District,
+                    Locality = p.Locality,
+                    Municipality = p.Municipality,
+                    MonthlyPrice = p.MonthlyPrice
+                }).ToList());
             }
             else
             {
-                Properties = new ObservableCollection<PropertyResponse>(
-                    _myProperties.Where(p => p.NameProperty.ToLower().Contains(Search.ToLower())));
+                Properties = new ObservableCollection<PropertyItemViewModel>(
+                    _myProperties.Select(p => 
+                    new PropertyItemViewModel(_navigationService) 
+                    {
+                        Id = p.Id,
+                        NameProperty = p.NameProperty,
+                        Area = p.Area,
+                        Address = p.Address,
+                        District = p.District,
+                        Locality = p.Locality,
+                        Municipality = p.Municipality,
+                        MonthlyPrice = p.MonthlyPrice
+                    })
+                    .Where(p => p.NameProperty.ToLower().Contains(Search.ToLower()))
+                    .ToList());
             }
         }
     }

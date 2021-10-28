@@ -1,5 +1,6 @@
 using Prism;
 using Prism.Ioc;
+using Syncfusion.Licensing;
 using WebRentals.Prism.Services;
 using WebRentals.Prism.ViewModels;
 using WebRentals.Prism.Views;
@@ -18,6 +19,8 @@ namespace WebRentals.Prism
 
         protected override async void OnInitialized()
         {
+            SyncfusionLicenseProvider.RegisterLicense("NTI2MTkzQDMxMzkyZTMzMmUzMGxsS2xDV1VVQ1ByQVRKZi9VR0xCWGdNdmZOTzBrc3NVc0JGRjVrcENJNGM9");
+
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/PropertiesPage");

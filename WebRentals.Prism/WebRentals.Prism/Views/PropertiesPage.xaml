@@ -3,16 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="WebRentals.Prism.Views.PropertiesPage"
              Title="{Binding Title}">
 
-
+    <AbsoluteLayout>
     <StackLayout
             Padding="5"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All">
-        <CollectionView ItemsSource="{Binding Properties}">
+            <SearchBar
+                Placeholder="Search product..."
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Search}" />
+            <CollectionView ItemsSource="{Binding Properties}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
@@ -60,5 +65,18 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
+        <busyindicator:SfBusyIndicator
+            Title="Loading..."
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            AnimationType="Rectangle"
+            BackgroundColor="Silver"
+            HorizontalOptions="Center"
+            IsBusy="{Binding IsRunning}"
+            TextColor="White"
+            VerticalOptions="Center"
+            ViewBoxHeight="80"
+            ViewBoxWidth="80" />
+    </AbsoluteLayout>
 
 </ContentPage>

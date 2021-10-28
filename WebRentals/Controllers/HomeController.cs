@@ -47,7 +47,7 @@ namespace Web_ManagementHouseRentals.Controllers
 
 
                 mail.From = new MailAddress("dinocinel3@gmail.com");
-                mail.To.Add(new MailAddress("dinocinel3@gmail.com"));
+                mail.To.Add(new MailAddress("rental4u.c@gmail.com"));
                 mail.Subject = $"Rental's page: {sendMail.Subject}";
 
                 mail.IsBodyHtml = true;

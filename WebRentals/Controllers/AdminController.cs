@@ -20,7 +20,7 @@ using Web_ManagementHouseRentals.Models;
 
 namespace Web_ManagementHouseRentals.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IUserHelper _userHelper;
@@ -33,7 +33,7 @@ namespace Web_ManagementHouseRentals.Controllers
         private readonly IProposalRepository _proposalRepository;
         private readonly IContractRepository _contractRepository;
         private Random _random;
-        private object sendMail;
+      
 
         public AdminController(IUserHelper userHelper,
                                 IImageHelper imageHelper,

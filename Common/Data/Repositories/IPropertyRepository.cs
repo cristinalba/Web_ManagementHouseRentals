@@ -16,5 +16,7 @@ namespace Common.Data.Repositories
         Task<IEnumerable<Property>> GetPropertiesOfCustomerAsync(string id);
 
         Task<IEnumerable<Property>> GetPropertiesToIndexAsync();
+
+        IQueryable<Property> GetPropertiesToApi();
     }
 }

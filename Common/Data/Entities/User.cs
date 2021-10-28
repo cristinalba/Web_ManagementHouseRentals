@@ -60,9 +60,5 @@ namespace Web_ManagementHouseRentals.Data.Entities
         [Display(Name = "Is Landlord?")]
         public bool IsLandlord { get; set; }
         //se tem um anuncio para alugar=> gravar IsLandlord=true;
-
-
-
-
     }
 }

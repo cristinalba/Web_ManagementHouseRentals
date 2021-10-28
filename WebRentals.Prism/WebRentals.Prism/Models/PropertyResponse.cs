@@ -59,5 +59,7 @@ namespace WebRentals.Prism.Models
 
 
         public ICollection<Property_PhotoResponse> PropertyPhotos { get; set; }
+
+        public string PhotoMobile { get; set; }
     }
 }

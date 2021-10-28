@@ -22,7 +22,7 @@ namespace WebRentals.Controllers.API
         [HttpGet]
         public IActionResult GetProperties()
         {
-            return Ok(_propertyRepository.GetPropertiesToApi());
+            return Ok(_propertyRepository.GetAll());
         }
     }
 }

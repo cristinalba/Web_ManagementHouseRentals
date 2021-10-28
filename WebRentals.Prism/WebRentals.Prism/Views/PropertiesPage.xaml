@@ -20,7 +20,7 @@
                     <DataTemplate>
                         <Grid>
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectProductCommand}" />
+                                <TapGestureRecognizer Command="{Binding SelectPropertyCommand}" />
                             </Grid.GestureRecognizers>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -34,14 +34,14 @@
                                 CacheDuration="50"
                                 RetryCount="3"
                                 RetryDelay="600"
-                                Source="{Binding ImageFullPath}"
+                                Source="{Binding PhotoMobile}"
                             WidthRequest="100" />
                             <StackLayout Grid.Column="1" VerticalOptions="Center">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="Medium"
                                     LineBreakMode="TailTruncation"
-                                    Text="{Binding Name}" />
+                                    Text="{Binding NameProperty}" />
                                 <Label FontAttributes="Italic" VerticalOptions="End">
                                     <Label.FormattedText>
                                     <FormattedString>
